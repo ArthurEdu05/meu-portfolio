@@ -1,0 +1,110 @@
+.hero {
+  width: 100%;
+  padding: 6rem 2rem;
+  background: linear-gradient(45deg, #1e3a8a 0%, #0f172a 100%);
+  background-size: 200% 200%;
+  animation: background 6s ease infinite;
+}
+
+@keyframes background {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.heroContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 4rem;
+}
+
+.heroText {
+  flex: 1 1 400px;
+  max-width: 550px;
+}
+
+.heroName {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.heroTitle {
+  font-size: 1.8rem;
+  color: #60a5fa;
+  margin-bottom: 1.5rem;
+}
+
+.heroDesc {
+  font-size: 1rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.BtnContato,
+.BtnDownloadCv {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.BtnContato {
+  background-color: #3b82f6;
+}
+
+.BtnDownloadCv {
+  background-color: transparent;
+  border: 1px solid #60a5fa;
+}
+
+.BtnContato:hover,
+.BtnDownloadCv:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.heroSocial a {
+  color: #e5e7eb;
+  margin-right: 1.2rem;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.heroSocial a:hover {
+  color: #3b82f6;
+}
+
+/* Profile image */
+.profileImage {
+  flex: 1 1 300px;
+  text-align: center;
+}
+
+.profileImage img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}

@@ -1,9 +1,9 @@
 .hero {
   width: 100%;
   padding: 6rem 2rem;
-  background: linear-gradient(45deg, #1e3a8a 0%, #0f172a 100%);
+  background: linear-gradient(45deg, #2c3e50 0%, #58697a 50%, #0f172a 100%);
   background-size: 200% 200%;
-  animation: background 6s ease infinite;
+  animation: background 8s ease infinite;
 }
 
 @keyframes background {
@@ -26,6 +26,8 @@
   max-width: 1200px;
   margin: 0 auto;
   gap: 4rem;
+  flex-wrap: wrap; 
+  text-align: left;
 }
 
 .heroText {
@@ -98,13 +100,13 @@
 /* Profile image */
 .profileImage {
   flex: 1 1 300px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .profileImage img {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  object-fit: cover;
+  max-width: 48%; /* aumenta o tamanho total da imagem */
+  border-radius: 8px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
+

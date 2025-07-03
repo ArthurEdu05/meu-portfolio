@@ -6,6 +6,11 @@ export default function Hero() {
   return (
     <section className="hero">
       <div className="heroContainer">
+
+        <div className="profileImage">
+          <img src={profile} alt="Foto de perfil" className="profileImage" />
+        </div>
+
         <div className="heroText">
           <h1 className="heroName">Arthur Eduardo.</h1>
           <h2 className="heroTitle">Dev Full Stack</h2>
@@ -35,9 +40,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="profileImage">
-          <img src={profile} alt="Foto de perfil" className="profileImage" />
-        </div>
+        
       </div>
     </section>
   );

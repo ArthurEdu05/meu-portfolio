@@ -1,6 +1,6 @@
 .hero {
   width: 100%;
-  padding: 6rem 2rem;
+  padding: 9rem 2rem 6rem;
   background: linear-gradient(45deg, #2c3e50 0%, #58697a 50%, #0f172a 100%);
   background-size: 200% 200%;
   animation: background 8s ease infinite;

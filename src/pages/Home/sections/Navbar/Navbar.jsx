@@ -14,7 +14,6 @@ export default function Navbar() {
         };
 
         navToggle.addEventListener("click", handleToggle);
-
         // Dropdown click (opcional se estiver usando dropdowns)
         const links = navList.querySelectorAll("li > a:not(:only-child)");
         const closeAllDropdowns = () => {
@@ -44,6 +43,7 @@ export default function Navbar() {
 
 
     return (
+        <>
         <section className="navigation">
             <div className="nav-container">
                 <nav>
@@ -59,7 +59,9 @@ export default function Navbar() {
                     </ul>
                 </nav>
             </div>
-        </section>
+            
 
+        </section>
+        </>
     );
 }

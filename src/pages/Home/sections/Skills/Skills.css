@@ -1,51 +1,51 @@
 .skills.section {
   padding: 6.5rem 0 2rem;
+  background-color: #1e293b;
 }
 
-.skills-container {
+.skills-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .skills-content {
-  background-color: var(--box-color);
-  padding: 2rem;
+  background-color: #273549;
+  padding: 2rem 2rem 3.5rem;
   border-radius: 0.5rem;
   transition: 0.4s;
+  overflow: hidden;
+  position: relative;
 }
 
 .skills-header {
   display: flex;
   align-items: center;
-  cursor: pointer;
+  cursor: default;
 }
 
 .skills-icon {
   font-size: 2rem;
-  color: var(--skin-color);
+  color: #3b82f6;
   margin-right: 0.75rem;
 }
 
 .skills-title {
   font-size: var(--h3-font-size);
   font-weight: var(--font-medium);
+  color: #ffffff;
 }
 
 .skills-subtitle {
   font-size: var(--small-font-size);
+  color: #d1d5db;
 }
 
 .skills-arrow {
-  font-size: 2rem;
-  color: var(--skin-color);
-  margin-left: auto;
-  transition: 0.4s;
-}
-
-.skills-open .skills-arrow {
-  transform: rotate(-90deg);
+  display: none;
 }
 
 .skills-list {
@@ -62,40 +62,42 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.3s;
+  position: relative;
+  cursor: pointer;
 }
 
-.skills-close .skills-list {
+.skill-icon-wrapper:hover {
   transform: scale(1.2);
+}
+
+.skill-icon-wrapper::after {
+  content: attr(data-name);
+  position: absolute;
+  bottom: -1.5rem;
+  background-color: #0f172a;
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+  transform: translateX(-50%) translateY(5px);
+  left: 50%;
+}
+
+.skill-icon-wrapper:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .section-title {
   text-align: center;
-  font-size: var(--h1-font-size);
-  margin-bottom: var(--mb3);
-}
-
-.section-title::before {
-  content: attr(data-heading);
-  display: block;
-  font-size: var(--normal-font-size);
-  font-weight: var(--font-medium);
-  color: var(--skin-color);
-}
-
-
-.skills-icons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-  justify-content: center;
-}
-
-.skill-icon {
   font-size: 3rem;
-  transition: transform 0.3s;
-}
-
-.skill-icon:hover {
-  transform: scale(1.2);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
 }

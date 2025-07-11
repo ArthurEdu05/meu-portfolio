@@ -1,34 +1,36 @@
 import { useState } from "react";
 import "./Skills.css";
-import { FaCode, FaServer, FaPaintBrush } from "react-icons/fa";
+import { FaCode, FaServer, FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaPython } from "react-icons/fa";
+import { GrMysql } from "react-icons/gr";
+import { SiFigma, SiAdobephotoshop } from "react-icons/si";
+import { FaPaintBrush } from "react-icons/fa";
 
 const skillsData = {
   frontend: {
     title: "Frontend",
     icon: <FaCode />,
     skills: [
-      { name: "HTML", level: 90 },
-      { name: "CSS", level: 85 },
-      { name: "JavaScript", level: 70 },
-      { name: "React", level: 80 },
+      { icon: FaHtml5, color: "#e44d26" },
+      { icon: FaCss3Alt, color: "#264de4" },
+      { icon: FaJsSquare, color: "#f7df1e" },
+      { icon: FaReact, color: "#61dbfb" },
     ],
   },
   backend: {
     title: "Backend",
     icon: <FaServer />,
     skills: [
-      { name: "Node.js", level: 70 },
-      { name: "Python", level: 85 },
-      { name: "MySQL", level: 75 },
-
+      { icon: FaNodeJs, color: "#83CD29" },
+      { icon: FaPython, color: "#3776ab" },
+      { icon: GrMysql, color: "#00758F" },
     ],
   },
   design: {
     title: "Outros",
     icon: <FaPaintBrush />,
     skills: [
-      { name: "Figma", level: 90 },
-      { name: "Photoshop", level: 70 },
+      { icon: SiFigma, color: "#a259ff" },
+      { icon: SiAdobephotoshop, color: "#31A8FF" },
     ],
   },
 };
@@ -38,16 +40,13 @@ export default function Skills() {
 
   return (
     <section className="skills section" id="skills">
-      <h2 className="section-title">
-        Habilidades
-      </h2>
+      <h2 className="section-title">Habilidades</h2>
 
       <div className="skills-container container grid">
-        {Object.entries(skillsData).map(([key, { title, subtitle, icon, skills }]) => (
+        {Object.entries(skillsData).map(([key, { title, icon, skills }]) => (
           <div
             className={`skills-content ${activeTab === key ? "skills-active" : "skills-close"}`}
             key={key}
-            data-content
           >
             <div
               className="skills-header"
@@ -56,28 +55,19 @@ export default function Skills() {
               <i className="skills-icon">{icon}</i>
               <div>
                 <h1 className="skills-title">{title}</h1>
-                <span className="skills-subtitle">{subtitle}</span>
               </div>
               <i className="skills-arrow">&#9662;</i>
             </div>
 
-            <div className="skills-list grid">
-              {activeTab === key &&
-                skills.map((skill) => (
-                  <div key={skill.name}>
-                    <div className="skills-titles">
-                      <h3 className="skills-name">{skill.name}</h3>
-                      <span className="skills-number">{skill.level}%</span>
-                    </div>
-                    <div className="skills-bar">
-                      <span
-                        className="skills-percentage"
-                        style={{ width: `${skill.level}%` }}
-                      ></span>
-                    </div>
-                  </div>
-                ))}
-            </div>
+            <div className="skills-list">
+  {activeTab === key &&
+    skills.map(({ icon: Icon, color }, index) => (
+      <div key={index} className="skill-icon-wrapper">
+        <Icon className="skill-icon" color={color} />
+      </div>
+    ))}
+</div>
+
           </div>
         ))}
       </div>

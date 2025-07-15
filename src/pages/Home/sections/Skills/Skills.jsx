@@ -1,34 +1,46 @@
 import "./Skills.css";
-import { FaCode, FaServer, FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaPython, FaPaintBrush } from "react-icons/fa";
+import {
+  FaCode, FaServer, FaHtml5, FaCss3Alt, FaJsSquare,
+  FaReact, FaNodeJs, FaGitAlt, FaPaintBrush, FaLaptopCode
+} from "react-icons/fa";
 import { GrMysql } from "react-icons/gr";
-import { SiFigma, SiAdobephotoshop } from "react-icons/si";
+
+// Ícones personalizados via imagem
+import nextIcon from "../../../../assets/images/Next.js.png";
+import javaIcon from "../../../../assets/images/java.png";
+import pythonIcon from "../../../../assets/images/python.png";
+import excelIcon from "../../../../assets/images/excel.png";
+import photoshopIcon from "../../../../assets/images/photoshop.png";
 
 const skillsData = {
-  frontend: {
-    title: "Frontend",
-    icon: <FaCode />,
-    skills: [
-      { icon: FaHtml5, color: "#e44d26", name: "HTML5" },
-      { icon: FaCss3Alt, color: "#264de4", name: "CSS3" },
-      { icon: FaJsSquare, color: "#f7df1e", name: "JavaScript" },
-      { icon: FaReact, color: "#61dbfb", name: "React" },
-    ],
-  },
   backend: {
     title: "Backend",
     icon: <FaServer />,
     skills: [
-      { icon: FaNodeJs, color: "#83CD29", name: "Node.js" },
-      { icon: FaPython, color: "#3776ab", name: "Python" },
+      { image: javaIcon, name: "Java" },
+      { image: pythonIcon, name: "Python" },
       { icon: GrMysql, color: "#00758F", name: "MySQL" },
+      { icon: FaNodeJs, color: "#83CD29", name: "Node.js" },
+    ],
+  },
+  frontend: {
+    title: "Frontend",
+    icon: <FaCode />,
+    skills: [
+      { icon: FaReact, color: "#61DBFB", name: "React" },
+      { icon: FaJsSquare, color: "#F7DF1E", name: "JavaScript" },
+      { icon: FaHtml5, color: "#E44D26", name: "HTML5" },
+      { icon: FaCss3Alt, color: "#264de4", name: "CSS3" },
     ],
   },
   design: {
     title: "Outros",
-    icon: <FaPaintBrush />,
+    icon: <FaLaptopCode />,
     skills: [
-      { icon: SiFigma, color: "#a259ff", name: "Figma" },
-      { icon: SiAdobephotoshop, color: "#31A8FF", name: "Photoshop" },
+      { icon: FaGitAlt, color: "#f1502f", name: "Git" },
+      { image: nextIcon, name: "Next.js" },
+      { image: photoshopIcon, name: "Photoshop" },
+      { image: excelIcon, name: "Excel" },
     ],
   },
 };
@@ -47,9 +59,13 @@ export default function Skills() {
             </div>
 
             <div className="skills-list">
-              {skills.map(({ icon: Icon, color, name }, index) => (
+              {skills.map(({ icon: Icon, color, image, name }, index) => (
                 <div key={index} className="skill-icon-wrapper" data-name={name}>
-                  <Icon className="skill-icon" color={color} />
+                  {image ? (
+                    <img src={image} alt={name} className="skill-image-icon" />
+                  ) : (
+                    <Icon className="skill-icon" color={color} />
+                  )}
                 </div>
               ))}
             </div>

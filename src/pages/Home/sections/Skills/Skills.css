@@ -101,3 +101,10 @@
   margin-bottom: 3rem;
   margin-top: 2rem;
 }
+.skill-image-icon {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+}
+

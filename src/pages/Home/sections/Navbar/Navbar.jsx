@@ -14,7 +14,7 @@ export default function Navbar() {
         };
 
         navToggle.addEventListener("click", handleToggle);
-        // Dropdown click (opcional se estiver usando dropdowns)
+      
         const links = navList.querySelectorAll("li > a:not(:only-child)");
         const closeAllDropdowns = () => {
             navList.querySelectorAll(".nav-dropdown").forEach(dropdown => {

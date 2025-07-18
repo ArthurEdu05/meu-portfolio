@@ -5,7 +5,6 @@ import {
 } from "react-icons/fa";
 import { GrMysql } from "react-icons/gr";
 
-// Ícones personalizados via imagem
 import nextIcon from "../../../../assets/images/Next.js.png";
 import javaIcon from "../../../../assets/images/java.png";
 import pythonIcon from "../../../../assets/images/python.png";

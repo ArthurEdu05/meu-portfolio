@@ -1,6 +1,7 @@
 import Hero from "./sections/Hero/Hero"
 import Navbar from "./sections/Navbar/Navbar"
 import Skills from "./sections/Skills/Skills";
+import Contact from "./sections/Contact/Contact";
 
 
 function Home() {
@@ -11,6 +12,7 @@ function Home() {
       <Navbar/>
       <Hero/>
       <Skills/>
+      <Contact/>
     </>
   )
 }

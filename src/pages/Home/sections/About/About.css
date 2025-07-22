@@ -1,0 +1,136 @@
+.about.section {
+  padding: 6.5rem 0 2rem;
+  background-color: #1e293b;
+  color: #fff;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3rem;
+}
+
+.timeline-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto 4rem auto;
+  padding: 0 2rem;
+}
+
+.timeline-container::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  background-color: #ffffff; 
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  padding: 2rem;
+  position: relative;
+  width: 50%;
+}
+
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item.right {
+  left: 50%;
+}
+
+.timeline-icon {
+  position: absolute;
+  top: 20px;
+  width: 45px;
+  height: 45px;
+  background-color: #3b82f6; 
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.timeline-item.left .timeline-icon {
+  right: -22px;
+}
+
+.timeline-item.right .timeline-icon {
+  left: -22px;
+}
+
+.timeline-content {
+  background-color: #273549;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.timeline-content:hover {
+  transform: translateY(-5px);
+}
+
+.timeline-role {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.timeline-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.timeline-meta {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.timeline-company {
+  font-weight: 500;
+  color: #fff;
+}
+
+.timeline-date {
+  display: block;
+  margin-top: 5px;
+  font-style: italic;
+  color: #9ca3af;
+}
+
+
+@media screen and (max-width: 768px) {
+  .timeline-container::after {
+    left: 20px;
+  }
+
+  .timeline-item {
+    width: 100%;
+    padding-left: 60px;
+    text-align: left !important;
+  }
+
+  .timeline-item.right {
+    left: 0;
+  }
+
+  .timeline-icon {
+    left: 0 !important;
+  }
+}
+
+

@@ -34,7 +34,7 @@
 }
 
 .footer-name {
-  color: #4da8ff;
+  color: #3b82f6;
   font-weight: 600;
 }
 
@@ -44,11 +44,11 @@
 }
 
 .footer-highlight {
-  color: #4da8ff;
+  color: #3b82f6;
   font-weight: 600;
 }
 
-/* Responsivo */
+
 @media (min-width: 768px) {
   .footer-container {
     flex-direction: row;

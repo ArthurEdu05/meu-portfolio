@@ -34,9 +34,6 @@ export default function Hero() {
             <a href="https://github.com/ArthurEdu05" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-github"></i>
             </a>
-            <a href={cvFile} download>
-              <i className="fas fa-file-download"></i>
-            </a>
           </div>
         </div>
 

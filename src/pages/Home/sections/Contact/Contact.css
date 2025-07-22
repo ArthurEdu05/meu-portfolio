@@ -1,6 +1,6 @@
 .contact-section {
   padding: 4rem 2rem;
-  background-color: #1c2a3a; 
+  background-color: #1e293b; 
   color: #fff;
   text-align: center;
 }
@@ -37,7 +37,7 @@
 }
 
 .contact-card {
-  background: #243447;
+  background: #273549;
   padding: 1.5rem;
   border-radius: 10px;
   display: flex;
@@ -53,7 +53,7 @@
 
 .contact-icon {
   font-size: 1.8rem;
-  color: #4da8ff;
+  color: #3b82f6;
 }
 
 .contact-card h3 {
@@ -68,7 +68,7 @@
 
 .contact-form {
   flex: 1;
-  background: #243447;
+  background: #273549;
   border-radius: 10px;
   padding: 1.5rem;
   display: flex;
@@ -87,7 +87,7 @@
   padding: 0.8rem;
   border: none;
   border-radius: 5px;
-  background-color: #1c2a3a;
+  background-color: #1e293b;
   color: #fff;
   font-size: 1rem;
   outline: none;

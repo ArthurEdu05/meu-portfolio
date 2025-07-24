@@ -93,8 +93,18 @@
   line-height: 1.5;
   color: #d1d5db;
   margin-bottom: 1rem;
+  
 }
 
+.timeline-item.left .timeline-description {
+  text-align: left;
+  padding-left: 60px;
+}
+
+.timeline-item.right .timeline-description {
+  text-align: left;
+  padding-right: 20px;
+}
 .timeline-meta {
   font-size: 0.85rem;
   color: #9ca3af;

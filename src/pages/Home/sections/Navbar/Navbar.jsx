@@ -51,7 +51,7 @@ export default function Navbar() {
                         <a id="nav-toggle" href="#!"><span></span></a>
                     </div>
                     <ul className="nav-list">
-                        <li><a href="#home">Início</a></li>
+                        <li><a href="#hero">Início</a></li>
                         <li><a href="#about">Sobre</a></li>
                         <li><a href="#skills">Habilidades</a></li>
                         <li><a href="#projects">Projetos</a></li>

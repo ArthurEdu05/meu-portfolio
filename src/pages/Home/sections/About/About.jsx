@@ -29,7 +29,7 @@ const About = () => {
       location: "São Paulo, SP | Modelo: Presencial",
       description: [
         "Gerenciar, analisar e tratar dados dos processos de vendas;",
-        "Melhorar fluxos e processos da empresa;",
+        "Melhorar e automatizar os processos operacionais da empresa;",
         "Solucionar problemas pós-venda.",
       ],
     },

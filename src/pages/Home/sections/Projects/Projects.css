@@ -1,0 +1,53 @@
+.projects.section {
+  padding: 6.5rem 0 2rem;
+  background-color: #1e293b;
+  text-align: center;
+  color: #fff;
+}
+
+.projects-placeholder {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projects-message {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.projects-submessage {
+  font-size: 1rem;
+  color: #d1d5db;
+  margin-bottom: 2.5rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 2.5rem;
+  padding: 0 2rem;
+}
+
+.project-card.empty {
+  background-color: #273549;
+  border: 3px dashed #3b82f6; 
+  border-radius: 4px;
+  padding: 4rem 2rem;
+  height: 340px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.project-card.empty:hover {
+  transform: translateY(-6px);
+  background-color: #2f3f59;
+}
+
+.project-placeholder {
+  color: #afa39c;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}

@@ -4,7 +4,7 @@ import Skills from "./sections/Skills/Skills";
 import Contact from "./sections/Contact/Contact";
 import Footer from "./sections/Footer/Footer";
 import About from "./sections/About/About";
-
+import Projects from "./sections/Projects/Projects";
 
 function Home() {
 
@@ -15,6 +15,7 @@ function Home() {
       <Hero/>
       <About/>
       <Skills/>
+      <Projects/>
       <Contact/>
       <Footer/>
       

@@ -20,7 +20,7 @@ No terminal:
     npm install
     ```
 
-3.  **Inicie o servidor de desenvolvimento**
+3.  **Inicie o servidor**
 
     ```bash
     npm run dev

@@ -1,7 +1,7 @@
 import "./Skills.css";
 import {
   FaCode, FaServer, FaHtml5, FaCss3Alt, FaJsSquare,
-  FaReact, FaNodeJs, FaGitAlt, FaPaintBrush, FaLaptopCode
+  FaReact, FaGitAlt, FaPaintBrush, FaLaptopCode
 } from "react-icons/fa";
 import { GrMysql } from "react-icons/gr";
 
@@ -10,6 +10,10 @@ import javaIcon from "../../../../assets/images/java.png";
 import pythonIcon from "../../../../assets/images/python.png";
 import excelIcon from "../../../../assets/images/excel.png";
 import photoshopIcon from "../../../../assets/images/photoshop.png";
+import nodejsIcon from "../../../../assets/images/nodejs.png";
+import postgresqlIcon from "../../../../assets/images/postgresql.png";
+import springIcon from "../../../../assets/images/spring.png";
+
 
 const skillsData = {
   backend: {
@@ -17,9 +21,10 @@ const skillsData = {
     icon: <FaServer />,
     skills: [
       { image: javaIcon, name: "Java" },
+      { image: springIcon, name: "Spring" },
       { image: pythonIcon, name: "Python" },
       { icon: GrMysql, color: "#00758F", name: "MySQL" },
-      { icon: FaNodeJs, color: "#83CD29", name: "Node.js" },
+      { image: postgresqlIcon, name: "PostgreSQL" },
     ],
   },
   frontend: {
@@ -38,6 +43,7 @@ const skillsData = {
     skills: [
       { icon: FaGitAlt, color: "#f1502f", name: "Git" },
       { image: nextIcon, name: "Next.js" },
+      { image: nodejsIcon, name: "Node.js" },
       { image: photoshopIcon, name: "Photoshop" },
       { image: excelIcon, name: "Excel" },
     ],

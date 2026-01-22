@@ -109,7 +109,7 @@
     left: 0.5rem;
 }
 
-/* For tablets and larger */
+
 @media (min-width: 768px) {
     .navbar-container {
         top: 0;

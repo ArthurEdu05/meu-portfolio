@@ -1,67 +1,80 @@
-import React, { useEffect } from "react";
-import "./Navbar.css";
+"use client"
+
+import React, { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import { Home, User, Wrench, FolderGit, Mail } from "lucide-react"
+import { clsx } from "clsx"
+import "./Navbar.css"
+
+const items = [
+    { name: "Início", url: "#hero", icon: Home },
+    { name: "Sobre", url: "#about", icon: User },
+    { name: "Habilidades", url: "#skills", icon: Wrench },
+    { name: "Projetos", url: "#projects", icon: FolderGit },
+    { name: "Contato", url: "#contact", icon: Mail },
+];
 
 export default function Navbar() {
-    useEffect(() => {
-        const navToggle = document.getElementById("nav-toggle");
-        const navList = document.querySelector(".nav-list");
+  const [activeTab, setActiveTab] = useState(items[0].name)
+  const [isMobile, setIsMobile] = useState(false)
 
-        if (!navToggle || !navList) return;
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
 
-        const handleToggle = () => {
-            navList.classList.toggle("open");
-            navToggle.classList.toggle("active");
-        };
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
-        navToggle.addEventListener("click", handleToggle);
-      
-        const links = navList.querySelectorAll("li > a:not(:only-child)");
-        const closeAllDropdowns = () => {
-            navList.querySelectorAll(".nav-dropdown").forEach(dropdown => {
-                dropdown.style.display = "none";
-            });
-        };
+  return (
+    <div
+      className={clsx(
+        "navbar-container",
+      )}
+    >
+      <div className="navbar-content">
+        {items.map((item) => {
+          const Icon = item.icon
+          const isActive = activeTab === item.name
 
-        links.forEach(link => {
-            link.addEventListener("click", e => {
-                e.preventDefault();
-                const dropdown = link.nextElementSibling;
-                if (dropdown) {
-                    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-                }
-                e.stopPropagation();
-            });
-        });
-
-        document.addEventListener("click", closeAllDropdowns);
-
-        return () => {
-            navToggle.removeEventListener("click", handleToggle);
-            document.removeEventListener("click", closeAllDropdowns);
-        };
-    }, []);
-
-
-    return (
-        <>
-        <section className="navigation">
-            <div className="nav-container">
-                <nav>
-                    <div className="nav-mobile">
-                        <a id="nav-toggle" href="#!"><span></span></a>
-                    </div>
-                    <ul className="nav-list">
-                        <li><a href="#hero">Início</a></li>
-                        <li><a href="#about">Sobre</a></li>
-                        <li><a href="#skills">Habilidades</a></li>
-                        <li><a href="#projects">Projetos</a></li>
-                        <li><a href="#contact">Contato</a></li>
-                    </ul>
-                </nav>
-            </div>
-            
-
-        </section>
-        </>
-    );
+          return (
+            <a
+              key={item.name}
+              href={item.url}
+              onClick={() => setActiveTab(item.name)}
+              className={clsx(
+                "navbar-item",
+                isActive && "active",
+              )}
+            >
+              <span className="navbar-item-name">{item.name}</span>
+              <span className="navbar-item-icon">
+                <Icon size={18} strokeWidth={2.5} />
+              </span>
+              {isActive && (
+                <motion.div
+                  layoutId="lamp"
+                  className="navbar-lamp"
+                  initial={false}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
+                  }}
+                >
+                  <div className="lamp-top">
+                    <div className="lamp-blur-1" />
+                    <div className="lamp-blur-2" />
+                    <div className="lamp-blur-3" />
+                  </div>
+                </motion.div>
+              )}
+            </a>
+          )
+        })}
+      </div>
+    </div>
+  )
 }

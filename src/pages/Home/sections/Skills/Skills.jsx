@@ -12,6 +12,8 @@ import excelIcon from "../../../../assets/images/excel.png";
 import nodejsIcon from "../../../../assets/images/nodejs.png";
 import postgresqlIcon from "../../../../assets/images/postgresql.png";
 import springIcon from "../../../../assets/images/spring.png";
+import postmanIcon from "../../../../assets/images/postman.png";
+import gitIcon from "../../../../assets/images/git.png";
 
 
 const skillsData = {
@@ -40,9 +42,10 @@ const skillsData = {
     title: "Outros",
     icon: <FaLaptopCode />,
     skills: [
-      { icon: FaGitAlt, color: "#f1502f", name: "Git" },
+      { image: gitIcon, name: "Git" },
       { image: nextIcon, name: "Next.js" },
       { image: nodejsIcon, name: "Node.js" },
+      { image: postmanIcon, name: "Postman" },
       { image: excelIcon, name: "Excel" },
     ],
   },

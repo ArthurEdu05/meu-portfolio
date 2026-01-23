@@ -14,6 +14,7 @@ import postgresqlIcon from "../../../../assets/images/postgresql.png";
 import springIcon from "../../../../assets/images/spring.png";
 import postmanIcon from "../../../../assets/images/postman.png";
 import gitIcon from "../../../../assets/images/git.png";
+import wordpressIcon from "../../../../assets/images/wordpress.png";
 
 
 const skillsData = {
@@ -44,9 +45,10 @@ const skillsData = {
     skills: [
       { image: gitIcon, name: "Git" },
       { image: nextIcon, name: "Next.js" },
-      { image: nodejsIcon, name: "Node.js" },
       { image: postmanIcon, name: "Postman" },
+      { image: nodejsIcon, name: "Node.js" },
       { image: excelIcon, name: "Excel" },
+      { image: wordpressIcon, name: "WordPress" },
     ],
   },
 };

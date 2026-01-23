@@ -25,12 +25,25 @@ const About = () => {
       icon: <FaBuilding />,
       company: "BeBrasil",
       role: "Analista de Dados - Estágio",
-      date: "Fevereiro 2025 - Presente",
+      date: "Fevereiro 2025 - Julho 2025",
       location: "São Paulo, SP | Modelo: Presencial",
       description: [
         "Gerenciar, analisar e tratar dados dos processos de vendas;",
         "Melhorar e automatizar os processos operacionais da empresa;",
         "Solucionar problemas pós-venda.",
+      ],
+    },
+    {
+      side: "right",
+      icon: <FaBuilding />,
+      company: "Sete Partners",
+      role: "Dev. Full Stack - Estágio",
+      date: "Junho 2025 - Novembro 2025",
+      location: "São Paulo, SP | Modelo: Presencial",
+      description: [
+        "Desenvolvimento de um sistema de gerenciamento de processos;",
+        "Personalização e implantação de sistemas para diferentes usuários;",
+        "Manutenção preventiva e corretiva do bancos de dados, aprimorando a performance e garantindo a estabilidade das aplicações.",
       ],
     },
   ];

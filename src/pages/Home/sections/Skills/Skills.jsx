@@ -9,7 +9,6 @@ import nextIcon from "../../../../assets/images/Next.js.png";
 import javaIcon from "../../../../assets/images/java.png";
 import pythonIcon from "../../../../assets/images/python.png";
 import excelIcon from "../../../../assets/images/excel.png";
-import photoshopIcon from "../../../../assets/images/photoshop.png";
 import nodejsIcon from "../../../../assets/images/nodejs.png";
 import postgresqlIcon from "../../../../assets/images/postgresql.png";
 import springIcon from "../../../../assets/images/spring.png";
@@ -44,7 +43,6 @@ const skillsData = {
       { icon: FaGitAlt, color: "#f1502f", name: "Git" },
       { image: nextIcon, name: "Next.js" },
       { image: nodejsIcon, name: "Node.js" },
-      { image: photoshopIcon, name: "Photoshop" },
       { image: excelIcon, name: "Excel" },
     ],
   },

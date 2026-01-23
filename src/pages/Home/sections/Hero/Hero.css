@@ -8,7 +8,43 @@
   background: linear-gradient(45deg, #2c3e50 0%, #58697a 50%, #0f172a 100%);
   background-size: 200% 200%;
   animation: background 8s ease infinite;
+  position: relative; 
 }
+
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 2rem; 
+  left: 50%;
+  transform: translateX(-50%);
+  color: #9ca3af; 
+  transition: color 0.3s ease-in-out; 
+  z-index: 20;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scroll-arrow:hover {
+  color: #3b82f6; 
+}
+
+.scroll-arrow .lucide { 
+  width: 2rem; 
+  height: 2rem; 
+  animation: bounce 1s infinite; 
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 
 @keyframes background {
   0% {

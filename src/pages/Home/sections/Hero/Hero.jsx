@@ -1,6 +1,7 @@
 import "./Hero.css";
 import profile from "../../../../assets/images/perfil.jpg";
 import cvFile from "../../../../assets/docs/Arthur_Eduardo_de_Almeida_Santos-CV.pdf";
+import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -39,6 +40,12 @@ export default function Hero() {
 
         
       </div>
+      <a
+        href="#about"
+        className="scroll-arrow"
+      >
+        <ChevronDown className="w-8 h-8" />
+      </a>
     </section>
   );
 }

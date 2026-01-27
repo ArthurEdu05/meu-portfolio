@@ -152,3 +152,16 @@
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
+.highlight-name {
+  color: #60a5fa; 
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.5); 
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  color: #d1d5db;
+  margin-bottom: 2rem;
+  min-height: 2.5rem; 
+}
+
+

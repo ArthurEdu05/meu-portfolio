@@ -9,12 +9,23 @@ import profile from "../../../../assets/images/perfil.jpg";
 import cvFile from "../../../../assets/docs/Arthur_Eduardo_de_Almeida_Santos-CV.pdf";
 import { ChevronDown } from "lucide-react";
 
-const LoopingTypewriter = ({ words, waitTime = 2000, typeSpeed = 80, deleteSpeed = 30 }) => {
+const LoopingTypewriter = ({ words, waitTime = 1300, typeSpeed = 70, deleteSpeed = 30, initialDelay = 0 }) => {
   const [text, setText] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isReadyToStart, setIsReadyToStart] = useState(false);
 
   useEffect(() => {
+    const startTimeout = setTimeout(() => {
+      setIsReadyToStart(true);
+    }, initialDelay);
+
+    return () => clearTimeout(startTimeout);
+  }, [initialDelay]);
+
+  useEffect(() => {
+    if (!isReadyToStart) return;
+
     let timeout;
     const currentWord = words[wordIndex];
 
@@ -40,7 +51,7 @@ const LoopingTypewriter = ({ words, waitTime = 2000, typeSpeed = 80, deleteSpeed
     }
 
     return () => clearTimeout(timeout);
-  }, [text, isDeleting, wordIndex, words, waitTime, typeSpeed, deleteSpeed]);
+  }, [text, isDeleting, wordIndex, words, waitTime, typeSpeed, deleteSpeed, isReadyToStart]);
   
   const cursorAnimation = {
     initial: { opacity: 0 },
@@ -58,14 +69,16 @@ const LoopingTypewriter = ({ words, waitTime = 2000, typeSpeed = 80, deleteSpeed
   return (
     <>
       <span className="highlight-name">{text}</span>
-      <motion.span
-        variants={cursorAnimation}
-        initial="initial"
-        animate="animate"
-        className="ml-1"
-      >
-        |
-      </motion.span>
+      {isReadyToStart && (
+        <motion.span
+          variants={cursorAnimation}
+          initial="initial"
+          animate="animate"
+          className="ml-1"
+        >
+          |
+        </motion.span>
+      )}
     </>
   );
 };
@@ -127,6 +140,7 @@ export default function Hero() {
             Um apaixonado por{" "}
             <LoopingTypewriter
               words={["tecnologia", "programação", "dados", "desafios"]}
+              initialDelay={500}
             />
           </h2>
           <div className="heroButtons">

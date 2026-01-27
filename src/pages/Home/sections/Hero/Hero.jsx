@@ -6,7 +6,7 @@ import {
 } from "framer-motion";
 import "./Hero.css";
 import profile from "../../../../assets/images/perfil.jpg";
-import cvFile from "../../../../assets/docs/Arthur_Eduardo_de_Almeida_Santos-CV.pdf";
+import cvFile from "../../../../assets/docs/CV-Arthur-Eduardo.pdf";
 import { ChevronDown } from "lucide-react";
 
 const LoopingTypewriter = ({ words, waitTime = 1300, typeSpeed = 70, deleteSpeed = 30, initialDelay = 0 }) => {

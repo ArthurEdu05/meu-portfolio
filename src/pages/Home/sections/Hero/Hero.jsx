@@ -8,6 +8,7 @@ import "./Hero.css";
 import profile from "../../../../assets/images/perfil.jpg";
 import cvFile from "../../../../assets/docs/CV-Arthur-Eduardo.pdf";
 import { ChevronDown } from "lucide-react";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const LoopingTypewriter = ({ words, waitTime = 1300, typeSpeed = 70, deleteSpeed = 30, initialDelay = 0 }) => {
   const [text, setText] = useState("");
@@ -161,13 +162,13 @@ export default function Hero() {
               href="https://www.linkedin.com/in/arthuredu"
               target="_blank"
             >
-              <i className="fab fa-linkedin-in"></i>
+              <FaLinkedin size="1.7rem" />
             </a>
             <a
               href="https://github.com/ArthurEdu05"
               target="_blank"
             >
-              <i className="fab fa-github"></i>
+              <FaGithub size="1.7rem" />
             </a>
           </div>
         </BlurFade>

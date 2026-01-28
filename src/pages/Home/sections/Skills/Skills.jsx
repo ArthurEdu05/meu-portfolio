@@ -58,7 +58,7 @@ export default function Skills() {
     <section className="skills section" id="skills">
       <h2 className="section-title">Habilidades</h2>
       <p className="skills-subtitle">
-        Tenho experiência e busco aprimorar meus conhecimentos nas seguintes tecnologias:
+        Desenvolvo soluções e busco aprimorar meus conhecimentos nas seguintes tecnologias:
       </p>
 
       <div className="skills-wrapper">

@@ -1,14 +1,13 @@
 .contact-section {
-  padding: 4rem 2rem 2rem;
+  padding: 6rem 2rem 2rem;
   background-color: #1e293b; 
   color: #fff;
   text-align: center;
 }
 
 .contact-title {
-  font-size: 2rem;
+  font-size: 3rem;
   margin-bottom: 0.5rem;
-  text-transform: uppercase;
   letter-spacing: 1.5px;
   color: #fff;
 }

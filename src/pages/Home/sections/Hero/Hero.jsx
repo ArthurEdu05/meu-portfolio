@@ -5,7 +5,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import "./Hero.css";
-import profile from "../../../../assets/images/perfil.jpg";
+import profile from "../../../../assets/images/perfil.JPG";
 import cvFile from "../../../../assets/docs/CV-Arthur-Eduardo.pdf";
 import { ChevronDown } from "lucide-react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";

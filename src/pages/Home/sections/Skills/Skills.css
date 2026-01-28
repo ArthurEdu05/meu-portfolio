@@ -1,5 +1,5 @@
 .skills.section {
-  padding: 6.5rem 0 2rem;
+  padding: 2rem 2rem 2rem;
   background-color: #1e293b;
 }
 
@@ -107,6 +107,13 @@
   color: #ffffff;
   margin-bottom: 3rem;
   margin-top: 2rem;
+}
+
+.skills-subtitle {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #d1d1d1;
+  text-align: center; /* Add text-align center for consistency with section-title */
 }
 .skill-image-icon {
   width: 3rem;

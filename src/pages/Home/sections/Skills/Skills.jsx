@@ -57,6 +57,9 @@ export default function Skills() {
   return (
     <section className="skills section" id="skills">
       <h2 className="section-title">Habilidades</h2>
+      <p className="skills-subtitle">
+        Tenho experiência e busco aprimorar meus conhecimentos nas seguintes tecnologias:
+      </p>
 
       <div className="skills-wrapper">
         {Object.entries(skillsData).map(([key, { title, icon, skills }]) => (

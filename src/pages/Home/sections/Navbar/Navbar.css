@@ -127,3 +127,26 @@
         display: none;
     }
 }
+
+@media (max-width: 420px) {
+    .navbar-content {
+        gap: 0.6rem; 
+        padding: 0.2rem; 
+        transform: scale(1);
+    }
+
+    .navbar-item {
+        padding: 0.5rem 1.2rem; 
+        font-size: 0.85rem; 
+    }
+
+    .navbar-item-icon svg { 
+      width: 17px;
+      height: 17px;
+      stroke-width: 2.2;
+    }
+
+    .lamp-top {
+      width: 1.8rem;
+    }
+}

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { motion } from "framer-motion"
 import { Home, User, Wrench, FolderGit, Mail } from "lucide-react"
 import { clsx } from "clsx"
@@ -17,6 +17,8 @@ const items = [
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState(items[0].name)
   const [isMobile, setIsMobile] = useState(false)
+  const [isNavigating, setIsNavigating] = useState(false)
+  const navTimeoutRef = useRef(null)
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,6 +32,8 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (isNavigating) return;
+
       const sections = items
         .map((item) => {
           const id = item.url.replace("#", "");
@@ -64,7 +68,20 @@ export default function Navbar() {
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [items]);
+  }, [isNavigating]);
+
+  const handleNavClick = (itemName) => {
+    setActiveTab(itemName);
+    setIsNavigating(true);
+
+    if (navTimeoutRef.current) {
+      clearTimeout(navTimeoutRef.current);
+    }
+
+    navTimeoutRef.current = setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
+  };
 
   return (
     <div
@@ -81,7 +98,7 @@ export default function Navbar() {
             <a
               key={item.name}
               href={item.url}
-              onClick={() => setActiveTab(item.name)}
+              onClick={() => handleNavClick(item.name)}
               className={clsx(
                 "navbar-item",
                 isActive && "active",

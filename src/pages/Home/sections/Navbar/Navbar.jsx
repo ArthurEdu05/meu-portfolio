@@ -28,6 +28,44 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = items
+        .map((item) => {
+          const id = item.url.replace("#", "");
+          return {
+            name: item.name,
+            element: document.getElementById(id),
+          };
+        })
+        .filter((section) => section.element);
+
+      let currentSection = sections[0]?.name || items[0].name;
+
+      for (const section of sections) {
+        if (section.element) {
+          const rect = section.element.getBoundingClientRect();
+          if (
+            rect.top <= window.innerHeight / 2 &&
+            rect.bottom >= window.innerHeight / 2
+          ) {
+            currentSection = section.name;
+            break;
+          }
+          if (rect.top <= 150 && rect.bottom > 0) {
+            currentSection = section.name;
+          }
+        }
+      }
+
+      setActiveTab(currentSection);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [items]);
+
   return (
     <div
       className={clsx(

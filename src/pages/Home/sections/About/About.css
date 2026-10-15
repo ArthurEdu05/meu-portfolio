@@ -18,6 +18,10 @@
   margin-bottom: 2rem;
 }
 
+.about__lead p + p {
+  margin-top: 1rem;
+}
+
 .about__facts {
   display: flex;
   flex-direction: column;
@@ -62,95 +66,151 @@
   color: var(--text-subtle);
 }
 
+.about__fact-item {
+  display: block;
+}
+
 .about__fact dd {
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--text);
 }
 
-/* Timeline */
-.about__timelines {
+/* Linha do tempo (trilha única) */
+.journey {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 2.75rem;
 }
 
-.timeline__heading {
+.journey__track {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.journey__progress {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform-origin: top;
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* Ponta luminosa que desce com a rolagem */
+.journey__head {
+  position: absolute;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 0 18px 4px var(--accent-glow);
+}
+
+/* Marco de seção sobre a trilha */
+.journey__heading {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 
-.timeline__heading h3 {
+.journey__heading h3 {
   font-size: 1.2rem;
   font-weight: 700;
 }
 
-.timeline__heading-icon {
+.journey__node {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   border: 1px solid var(--border-strong);
-  color: var(--text-muted);
+  background: var(--bg-alt);
+  color: var(--text-subtle);
+  box-shadow: 0 0 0 6px var(--bg-alt);
+  transition: color 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease),
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.timeline__heading-icon svg {
-  width: 17px;
-  height: 17px;
+.journey__node svg {
+  width: 18px;
+  height: 18px;
 }
 
-.timeline__body {
-  position: relative;
-  padding-left: 2rem;
+.journey__node.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.06);
+  box-shadow: 0 0 0 6px var(--bg-alt), 0 0 24px var(--accent-glow);
 }
 
-.timeline__list {
+.journey__list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-.timeline__track {
-  position: absolute;
-  left: 7px;
-  top: 8px;
-  bottom: 8px;
-  width: 2px;
-  border-radius: 2px;
-  background: var(--border);
-  overflow: hidden;
-}
-
-.timeline__progress {
-  position: absolute;
-  inset: 0;
-  transform-origin: top;
-  background: linear-gradient(180deg, var(--accent), rgba(91, 155, 255, 0.2));
-}
-
-.timeline__item {
+.journey__item {
   position: relative;
+  padding-left: 56px;
 }
 
-.timeline__dot {
+/* Ponto de cada item: acende quando a ponta da trilha passa */
+.journey__dot {
   position: absolute;
-  left: calc(-2rem + 1px);
-  top: 1.6rem;
-  width: 14px;
-  height: 14px;
+  z-index: 1;
+  left: 12px;
+  top: 1.65rem;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
+  border: 2px solid var(--border-strong);
   background: var(--bg-alt);
-  border: 2px solid var(--accent);
   box-shadow: 0 0 0 4px var(--bg-alt);
+  transition: background-color 0.35s var(--ease), border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.timeline__dot.is-current {
+.journey__dot.is-active {
+  border-color: var(--accent);
   background: var(--accent);
-  box-shadow: 0 0 0 4px var(--bg-alt), 0 0 16px var(--accent-glow);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px var(--bg-alt), 0 0 14px var(--accent-glow);
+}
+
+/* Item atual: pulso suave */
+.journey__dot.is-current.is-active::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: journey-pulse 2.2s ease-out infinite;
+}
+
+@keyframes journey-pulse {
+  from {
+    transform: scale(0.7);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }
 
 .timeline__card {
@@ -159,7 +219,11 @@
   border: 1px solid var(--border);
   background: var(--surface);
   box-shadow: var(--shadow);
-  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  transition: border-color 0.4s var(--ease), transform 0.3s var(--ease);
+}
+
+.timeline__card.is-active {
+  border-color: var(--accent-glow);
 }
 
 .timeline__card:hover {
@@ -167,12 +231,20 @@
   transform: translateX(4px);
 }
 
+/* Cabeçalho padrão: informações à esquerda, data (e status) fixos à direita */
 .timeline__card-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.5rem 1rem;
+}
+
+.timeline__meta {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  padding-top: 0.2rem;
 }
 
 .timeline__role {
@@ -203,13 +275,11 @@
 .timeline__period {
   display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--text-muted);
   white-space: nowrap;
-  padding-top: 0.2rem;
 }
 
 .timeline__period svg {
@@ -292,12 +362,32 @@
 }
 
 @media (max-width: 520px) {
-  .timeline__body {
-    padding-left: 1.6rem;
+  .timeline__card-head {
+    grid-template-columns: 1fr;
   }
 
-  .timeline__dot {
-    left: calc(-1.6rem + 1px);
+  .timeline__meta {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 0;
+  }
+
+  .journey__track {
+    left: 16px;
+  }
+
+  .journey__node {
+    width: 34px;
+    height: 34px;
+  }
+
+  .journey__item {
+    padding-left: 44px;
+  }
+
+  .journey__dot {
+    left: 9px;
   }
 
   .timeline__card {

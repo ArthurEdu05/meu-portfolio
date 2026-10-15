@@ -13,8 +13,11 @@ export const profile = {
   githubUrl: "https://github.com/ArthurEdu05",
   summary:
     "Desenvolvedor e estudante de Sistemas de Informação no Mackenzie, com mais de quatro anos na área de tecnologia. Construo aplicações Full Stack com Java, Spring Boot, Angular, React, TypeScript, SQL e Python, criando soluções que aprimoram fluxos e operações.",
-  about:
-    "Comecei na tecnologia pelo ensino técnico na FECAP e hoje curso Sistemas de Informação no Mackenzie. Passei por análise de dados e desenvolvimento full stack, entregando de portais completos a automações, e atualmente desenvolvo e mantenho sistemas com Spring Boot e Angular na Tokio Marine, em times ágeis.",
+  // Cada item é um parágrafo separado na seção Sobre
+  about: [
+    "A tecnologia faz parte da minha vida desde a infância. O primeiro passo profissional veio com a formação no curso técnico em Informática na FECAP. Hoje curso Sistemas de Informação na Universidade Mackenzie.",
+    "No mercado corporativo, passei por análise de dados e desenvolvimento full stack, entregando de portais completos a automações. Atualmente, desenvolvo sistemas com Spring Boot e Angular na Tokio Marine Seguradora, trabalhando em times ágeis.",
+  ],
   passions: ["tecnologia", "programação", "Inteligência Artificial", "dados", "desafios"],
 };
 
@@ -51,7 +54,7 @@ export const experience = [
       "Login com controle de acesso, simulador de financiamento com regras dinâmicas, geração automatizada de processos e painel administrativo integrado ao MySQL via AJAX.",
       "Integração com a API do OneDrive para gerenciamento de documentos.",
     ],
-    tags: ["WordPress", "MySQL", "AJAX", "OneDrive API"],
+    tags: ["WordPress", "PHP", "MySQL", "AJAX", "OneDrive API"],
   },
   {
     company: "BeBrasil",
@@ -69,10 +72,11 @@ export const experience = [
 
 export const education = [
   {
-    institution: "Universidade Presbiteriana Mackenzie",
+    institution: "Universidade Mackenzie",
     course: "Sistemas de Informação",
     type: "Bacharelado",
     period: "Jan 2024 — Dez 2027",
+    location: "São Paulo, SP",
     current: true,
   },
   {
@@ -80,10 +84,14 @@ export const education = [
     course: "Técnico em Informática",
     type: "Ensino Técnico",
     period: "Fev 2021 — Nov 2023",
+    location: "São Paulo, SP",
   },
 ];
 
-export const languages = [{ name: "Inglês", level: "Avançado (C1)", issuer: "CEL-LEP" }];
+export const languages = [
+  { name: "Português", level: "Fluente" },
+  { name: "Inglês", level: "Avançado (C1)", issuer: "CEL-LEP" },
+];
 
 // Enquanto a lista estiver vazia, a seção exibe as caixas de "Em breve".
 // Para publicar um projeto, adicione objetos neste formato:

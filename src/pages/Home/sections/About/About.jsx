@@ -1,5 +1,11 @@
-import { useRef } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import {
   Briefcase,
   Calendar,
@@ -21,38 +27,125 @@ import "./About.css";
 const facts = [
   { icon: Target, label: "Foco", value: "Desenvolvimento Full Stack" },
   { icon: GraduationCap, label: "Formação", value: "Sistemas de Informação · Mackenzie" },
-  ...languages.map((l) => ({ icon: Languages, label: "Idioma", value: `${l.name} · ${l.level}` })),
+  {
+    icon: Languages,
+    label: languages.length > 1 ? "Idiomas" : "Idioma",
+    // Um idioma por linha
+    value: languages.map((l) => (
+      <span key={l.name} className="about__fact-item">
+        {l.name} {l.level.charAt(0).toLowerCase() + l.level.slice(1)}
+      </span>
+    )),
+  },
   { icon: MapPin, label: "Localização", value: profile.location },
 ];
 
-function TimelineGroup({ icon: Icon, title, children }) {
+const EASE = [0.22, 1, 0.36, 1];
+
+// Trilha única que atravessa Experiência e Formação. A barra acompanha a rolagem
+// (linha de leitura a 60% da tela) e cada marco acende quando a ponta passa por ele.
+function Journey({ groups }) {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 75%", "end 60%"] });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  const nodesRef = useRef([]);
+  const [active, setActive] = useState(() => new Set());
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 60%", "end 60%"] });
+  const progress = useSpring(scrollYProgress, { stiffness: 180, damping: 32, mass: 0.4 });
+  const headTop = useTransform(progress, (v) => `${v * 100}%`);
+
+  const update = useCallback((p) => {
+    const box = ref.current?.getBoundingClientRect();
+    if (!box || !box.height) return;
+    const next = new Set();
+    nodesRef.current.forEach((el, i) => {
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if ((r.top + r.height / 2 - box.top) / box.height <= p + 0.002) next.add(i);
+    });
+    setActive((prev) =>
+      prev.size === next.size && [...next].every((i) => prev.has(i)) ? prev : next
+    );
+  }, []);
+
+  // Os marcos seguem a barra animada (e não a rolagem crua), ficando sempre em sincronia
+  useMotionValueEvent(progress, "change", update);
+  useEffect(() => update(progress.get()), [update, progress]);
+
+  const register = (i) => (el) => {
+    nodesRef.current[i] = el;
+  };
+
+  let n = 0;
 
   return (
-    <div className="timeline">
-      <Reveal className="timeline__heading">
-        <span className="timeline__heading-icon">
-          <Icon aria-hidden="true" />
-        </span>
-        <h3>{title}</h3>
-      </Reveal>
-      <div className="timeline__body" ref={ref}>
-        <span className="timeline__track" aria-hidden="true">
-          <motion.span className="timeline__progress" style={{ scaleY }} />
-        </span>
-        <ol className="timeline__list">{children}</ol>
-      </div>
+    <div className="journey" ref={ref}>
+      <span className="journey__track" aria-hidden="true">
+        <motion.span className="journey__progress" style={{ scaleY: progress }} />
+        <motion.span className="journey__head" style={{ top: headTop }} />
+      </span>
+
+      {groups.map(({ icon: Icon, title, items }) => {
+        const headingIndex = n++;
+        return (
+          <section className="journey__group" key={title}>
+            <Reveal className="journey__heading">
+              <span
+                ref={register(headingIndex)}
+                className={`journey__node${active.has(headingIndex) ? " is-active" : ""}`}
+              >
+                <Icon aria-hidden="true" />
+              </span>
+              <h3>{title}</h3>
+            </Reveal>
+
+            <ol className="journey__list">
+              {items.map((item, i) => {
+                const index = n++;
+                return (
+                  <JourneyItem
+                    key={item.org}
+                    {...item}
+                    order={i}
+                    isActive={active.has(index)}
+                    dotRef={register(index)}
+                  />
+                );
+              })}
+            </ol>
+          </section>
+        );
+      })}
     </div>
   );
 }
 
-function TimelineItem({ title, org, type, period, location, current, highlights, tags, index }) {
+function JourneyItem({
+  title,
+  org,
+  type,
+  period,
+  location,
+  current,
+  highlights,
+  tags,
+  order,
+  isActive,
+  dotRef,
+}) {
   return (
-    <Reveal as="li" className="timeline__item" delay={index * 0.05}>
-      <span className={`timeline__dot${current ? " is-current" : ""}`} aria-hidden="true" />
-      <article className="timeline__card card-hover">
+    <motion.li
+      className="journey__item"
+      initial={{ opacity: 0, x: 32 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.7, delay: order * 0.08, ease: EASE }}
+    >
+      <span
+        ref={dotRef}
+        className={`journey__dot${isActive ? " is-active" : ""}${current ? " is-current" : ""}`}
+        aria-hidden="true"
+      />
+      <article className={`timeline__card card-hover${isActive ? " is-active" : ""}`}>
         <header className="timeline__card-head">
           <div>
             <h4 className="timeline__role">{title}</h4>
@@ -61,11 +154,13 @@ function TimelineItem({ title, org, type, period, location, current, highlights,
               {type && <span className="timeline__type">{type}</span>}
             </p>
           </div>
-          <span className="timeline__period">
-            <Calendar aria-hidden="true" />
-            {period}
+          <div className="timeline__meta">
+            <span className="timeline__period">
+              <Calendar aria-hidden="true" />
+              {period}
+            </span>
             {current && <span className="timeline__current">Em andamento</span>}
-          </span>
+          </div>
         </header>
         {location && <p className="timeline__location">{location}</p>}
         {highlights?.length > 0 && (
@@ -83,9 +178,38 @@ function TimelineItem({ title, org, type, period, location, current, highlights,
           </ul>
         )}
       </article>
-    </Reveal>
+    </motion.li>
   );
 }
+
+const journeyGroups = [
+  {
+    icon: Briefcase,
+    title: "Experiência profissional",
+    items: experience.map((e) => ({
+      title: e.role,
+      org: e.company,
+      type: e.type,
+      period: e.period,
+      location: e.location,
+      current: e.current,
+      highlights: e.highlights,
+      tags: e.tags,
+    })),
+  },
+  {
+    icon: GraduationCap,
+    title: "Formação acadêmica",
+    items: education.map((e) => ({
+      title: e.course,
+      org: e.institution,
+      type: e.type,
+      period: e.period,
+      location: e.location,
+      current: e.current,
+    })),
+  },
+];
 
 export default function About() {
   return (
@@ -95,13 +219,16 @@ export default function About() {
           id="about-title"
           eyebrow="01 · Sobre"
           title="Minha jornada"
-          subtitle="Uma trajetória construída entre a sala de aula e projetos reais, unindo desenvolvimento de software e análise de dados."
         />
 
         <div className="about__grid">
           <aside className="about__intro">
             <Reveal>
-              <p className="about__lead">{profile.about}</p>
+              <div className="about__lead">
+                {profile.about.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </Reveal>
             <Reveal delay={0.1}>
               <dl className="about__facts">
@@ -121,37 +248,7 @@ export default function About() {
           </aside>
 
           <div className="about__timelines">
-            <TimelineGroup icon={Briefcase} title="Experiência profissional">
-              {experience.map((e, i) => (
-                <TimelineItem
-                  key={e.company}
-                  index={i}
-                  title={e.role}
-                  org={e.company}
-                  type={e.type}
-                  period={e.period}
-                  location={e.location}
-                  current={e.current}
-                  highlights={e.highlights}
-                  tags={e.tags}
-                />
-              ))}
-            </TimelineGroup>
-
-            <TimelineGroup icon={GraduationCap} title="Formação acadêmica">
-              {education.map((e, i) => (
-                <TimelineItem
-                  key={e.institution}
-                  index={i}
-                  title={e.course}
-                  org={e.institution}
-                  type={e.type}
-                  period={e.period}
-                  current={e.current}
-                />
-              ))}
-            </TimelineGroup>
-
+            <Journey groups={journeyGroups} />
           </div>
         </div>
       </div>

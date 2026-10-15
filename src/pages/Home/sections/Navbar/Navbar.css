@@ -55,7 +55,13 @@
 }
 
 .navbar-item .navbar-item-icon {
-    display: inline;
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+/* Sem isso o ícone herda max-width: 100% de um pai sem largura e fica 0x0 */
+.navbar-item-icon svg {
+    max-width: none;
 }
 
 .navbar-lamp {
@@ -128,6 +134,27 @@
     }
 }
 
+@media (max-width: 767px) {
+    .navbar-container {
+        left: var(--gutter);
+        right: var(--gutter);
+        transform: none;
+    }
+
+    .navbar-content {
+        justify-content: space-between;
+        transform: none;
+    }
+
+    .navbar-item {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
 @media (max-width: 420px) {
     .navbar-content {
         gap: 0.6rem; 
@@ -136,7 +163,7 @@
     }
 
     .navbar-item {
-        padding: 0.5rem 1.2rem; 
+        padding: 0.5rem 0;
         font-size: 0.85rem; 
     }
 

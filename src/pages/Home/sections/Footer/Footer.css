@@ -89,4 +89,10 @@
   .footer__dev {
     text-align: center;
   }
+
+  /* Área de toque mínima de 44px */
+  .footer__social {
+    width: 44px;
+    height: 44px;
+  }
 }

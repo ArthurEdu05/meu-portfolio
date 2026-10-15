@@ -301,8 +301,62 @@
 }
 
 @media (max-width: 900px) {
+  /* minmax(0, ...) impede que o e-mail longo alargue a coluna além da tela */
   .contact__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .channel__link {
+    gap: 0.85rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .channel__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* E-mail sempre numa linha: a fonte acompanha a largura da tela.
+     Espaço livre ≈ 100vw − (margens, padding, ícone, gaps e botão ≈ 172px);
+     o endereço ocupa ≈ 13,2em. */
+  .channel__value--email {
+    font-size: min(0.97rem, calc((100vw - 172px) / 13.2));
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  /* Botão de copiar só com ícone no celular (nome continua no aria-label e no title) */
+  .channel__copy {
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    margin-right: 0.75rem;
+    padding: 0;
+    border-radius: 12px;
+  }
+
+  .channel__copy svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .channel__copy-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  /* 16px evita o zoom automático do iOS ao tocar nos campos */
+  .field input,
+  .field textarea {
+    font-size: 16px;
   }
 }
 

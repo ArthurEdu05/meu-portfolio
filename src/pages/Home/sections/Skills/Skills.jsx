@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from "react";
 import { Server, MonitorSmartphone, Database, Wrench } from "lucide-react";
 import {
   SiSpringboot,
@@ -105,7 +106,53 @@ const categories = [
   },
 ];
 
+const MOBILE = "(max-width: 767px)";
+const MAX_NAME_PX = 11.2; // 0.7rem
+
+// No mobile, cada nome é medido e recebe a maior fonte que cabe em uma linha
+// dentro do próprio bloco. Assim todos os blocos mantêm a mesma altura.
+function useFitSkillNames() {
+  const ref = useRef(null);
+
+  useLayoutEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const mq = window.matchMedia(MOBILE);
+
+    const fit = () => {
+      root.querySelectorAll(".skill__name").forEach((el) => {
+        if (!mq.matches) {
+          el.style.fontSize = "";
+          return;
+        }
+        el.style.fontSize = `${MAX_NAME_PX}px`;
+        const tile = el.parentElement;
+        const cs = getComputedStyle(tile);
+        const available = tile.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        const width = el.scrollWidth;
+        if (width > available) {
+          el.style.fontSize = `${Math.floor((MAX_NAME_PX * available * 10) / width) / 10}px`;
+        }
+      });
+    };
+
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(root);
+    mq.addEventListener("change", fit);
+    document.fonts?.ready.then(fit);
+    return () => {
+      ro.disconnect();
+      mq.removeEventListener("change", fit);
+    };
+  }, []);
+
+  return ref;
+}
+
 export default function Skills() {
+  const fitRef = useFitSkillNames();
+
   return (
     <section className="section skills" id="skills" aria-labelledby="skills-title">
       <div className="container">
@@ -116,7 +163,7 @@ export default function Skills() {
           subtitle="Tecnologias que uso no dia a dia para desenvolver soluções completas."
         />
 
-        <RevealGroup className="skills__grid" stagger={0.1}>
+        <RevealGroup className="skills__grid" stagger={0.1} ref={fitRef}>
           {categories.map(({ title, description, icon: Icon, skills }) => (
             <RevealItem
               as="article"

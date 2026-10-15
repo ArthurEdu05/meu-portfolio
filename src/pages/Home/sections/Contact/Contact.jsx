@@ -63,9 +63,12 @@ function CopyEmailButton() {
       className={`channel__copy${copied ? " is-copied" : ""}`}
       onClick={copy}
       aria-label={copied ? "E-mail copiado" : "Copiar e-mail"}
+      title={copied ? "E-mail copiado" : "Copiar e-mail"}
     >
       {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-      <span aria-live="polite">{copied ? "Copiado" : "Copiar"}</span>
+      <span className="channel__copy-label" aria-live="polite">
+        {copied ? "Copiado" : "Copiar"}
+      </span>
     </button>
   );
 }
@@ -197,7 +200,7 @@ export default function Contact() {
                   </span>
                   <span className="channel__text">
                     <span className="channel__label">{label}</span>
-                    <span className="channel__value">{value}</span>
+                    <span className={`channel__value${copy ? " channel__value--email" : ""}`}>{value}</span>
                   </span>
                 </>
               );

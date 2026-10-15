@@ -12,7 +12,7 @@ export const profile = {
   linkedinHandle: "in/arthuredu",
   githubUrl: "https://github.com/ArthurEdu05",
   summary:
-    "Desenvolvedor e estudante de Sistemas de Informação no Mackenzie, com mais de quatro anos na área de tecnologia. Construo aplicações Full Stack com Java, Spring Boot, Angular, React, TypeScript, SQL e Python, criando soluções que aprimoram fluxos e operações.",
+    "Desenvolvedor na Tokio Marine Seguradora e estudante de Sistemas de Informação no Mackenzie. Construo aplicações Full Stack utilizando principalmente a linguagem Java, criando soluções que aprimoram fluxos e operações.",
   // Cada item é um parágrafo separado na seção Sobre
   about: [
     "A tecnologia faz parte da minha vida desde a infância. O primeiro passo profissional veio com a formação no curso técnico em Informática na FECAP. Hoje curso Sistemas de Informação na Universidade Mackenzie.",

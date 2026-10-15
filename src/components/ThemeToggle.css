@@ -69,11 +69,14 @@
 
 @media (max-width: 767px) {
   .theme-toggle {
-    /* acima do menu inferior */
-    right: 1rem;
-    bottom: calc(5.5rem + env(safe-area-inset-bottom));
-    width: 46px;
-    height: 46px;
+    /* no mobile fica no canto superior direito, longe do menu inferior */
+    top: calc(0.875rem + env(safe-area-inset-top));
+    right: var(--gutter);
+    bottom: auto;
+    width: 44px;
+    height: 44px;
+    /* mais opaco: fica legível ao passar por cima do conteúdo */
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
   }
 
   .theme-toggle__icon svg {

@@ -158,7 +158,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) - 8px);
+  scroll-padding-top: 0;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -457,6 +457,28 @@ html {
 
 .card-hover:hover {
   box-shadow: 0 24px 48px -28px var(--accent-glow), var(--shadow);
+}
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* Grade do mobile: todas as seções, o botão de tema e o menu alinham nesta margem */
+  :root {
+    --gutter: 1.25rem;
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    margin-bottom: 0.75rem;
+  }
 }
 
 /* ==========================================================================

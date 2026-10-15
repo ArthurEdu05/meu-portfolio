@@ -1,3 +1,8 @@
+/* Corta o deslocamento dos cards que entram pela direita (clip não quebra o sticky) */
+.about {
+  overflow-x: clip;
+}
+
 .about__grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);

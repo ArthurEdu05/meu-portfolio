@@ -6,6 +6,7 @@ import {
   SiPrisma,
   SiFastapi,
   SiSwagger,
+  SiRabbitmq,
   SiAngular,
   SiReact,
   SiNextdotjs,
@@ -13,6 +14,7 @@ import {
   SiJavascript,
   SiTailwindcss,
   SiHtml5,
+  SiCss3,
   SiMysql,
   SiPostgresql,
   SiRedis,
@@ -35,12 +37,13 @@ import { RevealGroup, RevealItem } from "../../../../components/Reveal";
 import "./Skills.css";
 import javaLogo from "../../../../assets/images/java.png";
 import pythonLogo from "../../../../assets/images/python.png";
+import bullmqLogo from "../../../../assets/images/bullmq.png";
 
 // Cores das marcas, levemente ajustadas para contraste em fundo escuro
 const categories = [
   {
     title: "Backend",
-    description: "APIs RESTful, regras de negócio e arquitetura de serviços.",
+    description: "APIs RESTful, Clean Architecture, autenticação, integrações, filas assíncronas, etc.",
     icon: Server,
     skills: [
       { image: javaLogo, name: "Java" },
@@ -51,20 +54,23 @@ const categories = [
       { icon: SiFastapi, color: "#009688", name: "FastAPI" },
       { icon: SiPrisma, name: "Prisma" },
       { icon: SiSwagger, color: "#85ea2d", name: "Swagger" },
+      { image: bullmqLogo, name: "BullMQ" },
+      { icon: SiRabbitmq, color: "#ff6600", name: "RabbitMQ" },
     ],
   },
   {
     title: "Frontend",
-    description: "Interfaces reativas, responsivas e bem estruturadas.",
+    description: "SPAs, componentização, consumo de APIs, interfaces responsivas, etc.",
     icon: MonitorSmartphone,
     skills: [
       { icon: SiAngular, color: "#ff4b6b", name: "Angular" },
-      { icon: SiReact, color: "#61dafb", name: "React" },
-      { icon: SiNextdotjs, name: "Next.js" },
       { icon: SiTypescript, color: "#4a9eff", name: "TypeScript" },
       { icon: SiJavascript, color: "#f7df1e", name: "JavaScript" },
+      { icon: SiReact, color: "#61dafb", name: "React" },
+      { icon: SiNextdotjs, name: "Next.js" },
       { icon: SiTailwindcss, color: "#38bdf8", name: "Tailwind CSS" },
-      { icon: SiHtml5, color: "#f06529", name: "HTML & CSS" },
+      { icon: SiHtml5, color: "#f06529", name: "HTML" },
+      { icon: SiCss3, color: "#3d8fe0", name: "CSS" },
     ],
   },
   {
@@ -72,27 +78,27 @@ const categories = [
     description: "Modelagem, persistência, cache, infraestrutura e monitoramento.",
     icon: Database,
     skills: [
+      { icon: SiDocker, color: "#2496ed", name: "Docker" },
       { icon: SiMysql, color: "#4a9cc4", name: "MySQL" },
+      { icon: SiDatadog, color: "#9f6fe8", name: "Datadog" },
+      { icon: SiAmazonwebservices, color: "#ff9900", name: "AWS" },
       { icon: SiPostgresql, color: "#699eca", name: "PostgreSQL" },
       { icon: SiSupabase, color: "#3ecf8e", name: "Supabase" },
       { icon: SiRedis, color: "#ff4438", name: "Redis" },
-      { icon: SiDocker, color: "#2496ed", name: "Docker" },
-      { icon: SiAmazonwebservices, color: "#ff9900", name: "AWS" },
-      { icon: SiDatadog, color: "#9f6fe8", name: "Datadog" },
     ],
   },
   {
     title: "Ferramentas & Práticas",
-    description: "Versionamento, IA no desenvolvimento, metodologias ágeis e design.",
+    description: "Versionamento, IA no desenvolvimento, gestão de projetos e documentação técnica.",
     icon: Wrench,
     skills: [
       { icon: SiGit, color: "#f05032", name: "Git" },
-      { icon: SiClaude, color: "#d97757", name: "Claude Code" },
-      { icon: SiOpenai, name: "Codex" },
+      { icon: SiPostman, color: "#ff6c37", name: "Postman" },
       { icon: SiJira, color: "#4c9aff", name: "Jira" },
       { icon: SiConfluence, color: "#4c9aff", name: "Confluence" },
       { icon: SiFigma, color: "#f24e1e", name: "Figma" },
-      { icon: SiPostman, color: "#ff6c37", name: "Postman" },
+      { icon: SiClaude, color: "#d97757", name: "Claude Code" },
+      { icon: SiOpenai, name: "Codex" },
       { icon: SiWordpress, color: "#4ba3d3", name: "WordPress" },
       { icon: SiFilezilla, color: "#e3403b", name: "FileZilla" },
     ],
@@ -107,7 +113,7 @@ export default function Skills() {
           id="skills-title"
           eyebrow="02 · Habilidades"
           title="Stack e competências"
-          subtitle="Tecnologias que uso no dia a dia para desenvolver soluções completas, do banco de dados à interface."
+          subtitle="Tecnologias que uso no dia a dia para desenvolver soluções completas."
         />
 
         <RevealGroup className="skills__grid" stagger={0.1}>

@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import "./ThemeToggle.css";
 
-const STORAGE_KEY = "theme";
 const DURATION = 600;
 // Entrada e saída suaves: o círculo acelera e desacelera de forma contínua
 const EASING = "cubic-bezier(0.65, 0, 0.35, 1)";
 const ICON_SPRING = { type: "spring", stiffness: 260, damping: 22 };
+const STORAGE_KEY = "theme";
 const THEME_BG = { dark: "#070b14", light: "#f6f8fb" };
 
 function getInitialTheme() {

@@ -4,13 +4,12 @@ import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import "./ThemeToggle.css";
 
-const DURATION = 850;
-// A animação tem duas etapas: primeiro um círculo pequeno "nasce" no botão
-// (para o olho registrar a origem), depois ele se expande até cobrir a tela.
-// Sem essa etapa, em telas grandes o primeiro movimento perceptível já é a
-// borda do círculo cruzando o meio da tela.
-const SEED_RADIUS_PX = 110;
-const SEED_AT = 0.22; // fração da duração usada no "nascimento"
+const DURATION = 800;
+// Um único movimento contínuo: sai rápido do botão e desacelera até cobrir a
+// tela. Não usar etapas intermediárias (keyframes com easings diferentes), pois
+// a desaceleração no meio aparece como uma "paradinha", mais visível em telas
+// menores, onde a etapa intermediária ocupa uma fração maior da tela.
+const EASING = "cubic-bezier(0.33, 1, 0.68, 1)";
 const ICON_SPRING = { type: "spring", stiffness: 260, damping: 22 };
 const STORAGE_KEY = "theme";
 const THEME_BG = { dark: "#070b14", light: "#f6f8fb" };
@@ -43,11 +42,7 @@ function circleFrom(button) {
   // Em clip-path, raio em % é relativo a √(w² + h²) / √2
   const toPct = (px) => ((px / (Math.hypot(w, h) / Math.SQRT2)) * 100).toFixed(3);
   const at = `at ${((x / w) * 100).toFixed(3)}% ${((y / h) * 100).toFixed(3)}%`;
-  return [
-    { clipPath: `circle(0% ${at})`, offset: 0, easing: "cubic-bezier(0.2, 0.8, 0.3, 1)" },
-    { clipPath: `circle(${toPct(SEED_RADIUS_PX)}% ${at})`, offset: SEED_AT, easing: "cubic-bezier(0.55, 0, 0.25, 1)" },
-    { clipPath: `circle(${toPct(radius)}% ${at})`, offset: 1 },
-  ];
+  return { clipPath: [`circle(0% ${at})`, `circle(${toPct(radius)}% ${at})`] };
 }
 
 export default function ThemeToggle() {
@@ -81,6 +76,7 @@ export default function ThemeToggle() {
       transition.ready.then(() => {
         root.animate(clip, {
           duration: DURATION,
+          easing: EASING,
           fill: "both",
           pseudoElement: "::view-transition-new(root)",
         });
@@ -99,7 +95,7 @@ export default function ThemeToggle() {
     overlay.style.background = THEME_BG[next];
     document.body.appendChild(overlay);
     overlay
-      .animate(clip, { duration: DURATION, fill: "forwards" })
+      .animate(clip, { duration: DURATION, easing: EASING, fill: "forwards" })
       .finished.then(() => {
         commit();
         return overlay.animate({ opacity: [1, 0] }, { duration: 300, fill: "forwards" }).finished;

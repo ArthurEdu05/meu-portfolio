@@ -1,12 +1,12 @@
 .theme-toggle {
   position: fixed;
-  right: 1.5rem;
-  bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  right: var(--toggle-offset);
+  bottom: calc(var(--toggle-offset) + env(safe-area-inset-bottom));
   z-index: 60;
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: var(--toggle-size);
+  height: var(--toggle-size);
   border-radius: 50%;
   border: 1px solid var(--border-strong);
   background: var(--glass);

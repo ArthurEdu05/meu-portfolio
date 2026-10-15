@@ -44,6 +44,9 @@
   --container: 1160px;
   --gutter: clamp(1rem, 4vw, 2rem);
   --nav-h: 72px;
+  /* Botão flutuante de tema (canto inferior direito, desktop) */
+  --toggle-size: 52px;
+  --toggle-offset: 1.5rem;
 
   /* Tons auxiliares (variam por tema) */
   --on-accent: #ffffff;

@@ -23,6 +23,17 @@
   gap: 1rem;
 }
 
+/* Em telas não tão largas (ex.: notebook), o botão flutuante de tema cai em
+   cima do "Desenvolvido por". Reserva o espaço dele só quando a margem
+   natural do container não basta; dos dois lados, para manter o centro.
+   Seletor mais específico porque o global.css (.container) é carregado depois. */
+.footer .footer__inner {
+  padding-inline: max(
+    var(--gutter),
+    calc(var(--toggle-offset) + var(--toggle-size) + 1rem - max(0px, (100vw - var(--container)) / 2))
+  );
+}
+
 .footer__socials {
   display: flex;
   gap: 0.5rem;
@@ -71,6 +82,15 @@
   font-weight: 600;
 }
 
+/* Telas estreitas com layout de desktop: não há espaço para o "Desenvolvido
+   por" ao lado do botão de tema sem quebrar a linha, então ele sai. A coluna
+   fica vazia e o texto do meio continua centralizado. */
+@media (min-width: 768px) and (max-width: 904px) {
+  .footer__dev {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   .footer {
     padding-top: 2rem;
@@ -83,6 +103,11 @@
     justify-items: center;
     gap: 0.75rem;
     text-align: center;
+  }
+
+  /* no mobile o botão de tema fica no topo, não no rodapé */
+  .footer .footer__inner {
+    padding-inline: var(--gutter);
   }
 
   .footer__text,

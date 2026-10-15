@@ -1,10 +1,38 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <meta name="theme-color" content="#070b14" />
+    <meta
+      name="description"
+      content="Arthur Eduardo — Desenvolvedor Full Stack & Dados em São Paulo. Experiência com Java, Spring, React, Python e bancos de dados. Disponível para novas oportunidades."
+    />
+    <meta property="og:title" content="Arthur Eduardo — Desenvolvedor Full Stack & Dados" />
+    <meta
+      property="og:description"
+      content="Portfólio profissional de Arthur Eduardo. Experiência, habilidades, projetos e contato."
+    />
+    <meta property="og:type" content="website" />
+    <script>
+      // Aplica o tema salvo antes da pintura para evitar "piscar"
+      (function () {
+        try {
+          if (localStorage.getItem("theme") === "light") {
+            document.documentElement.dataset.theme = "light";
+            document.querySelector('meta[name="theme-color"]').content = "#f6f8fb";
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Manrope:wght@600;700;800&family=Plus+Jakarta+Sans:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Arthur Eduardo — Desenvolvedor Full Stack & Dados</title>
   </head>
   <body>
     <div id="root"></div>

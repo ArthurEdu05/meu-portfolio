@@ -84,7 +84,8 @@ export default function Navbar() {
   };
 
   return (
-    <div
+    <nav
+      aria-label="Navegação principal"
       className={clsx(
         "navbar-container",
       )}
@@ -103,6 +104,8 @@ export default function Navbar() {
                 "navbar-item",
                 isActive && "active",
               )}
+              aria-label={item.name}
+              aria-current={isActive ? "true" : undefined}
             >
               <span className="navbar-item-name">{item.name}</span>
               <span className="navbar-item-icon">
@@ -130,6 +133,6 @@ export default function Navbar() {
           )
         })}
       </div>
-    </div>
+    </nav>
   )
 }

@@ -4,10 +4,13 @@ import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import "./ThemeToggle.css";
 
-const DURATION = 700;
-// Começa já visível no botão e desacelera no fim (ease-out). Uma curva que
-// começa lenta faz o círculo "aparecer" só no meio da tela.
-const EASING = "cubic-bezier(0.33, 1, 0.68, 1)";
+const DURATION = 850;
+// A animação tem duas etapas: primeiro um círculo pequeno "nasce" no botão
+// (para o olho registrar a origem), depois ele se expande até cobrir a tela.
+// Sem essa etapa, em telas grandes o primeiro movimento perceptível já é a
+// borda do círculo cruzando o meio da tela.
+const SEED_RADIUS_PX = 110;
+const SEED_AT = 0.22; // fração da duração usada no "nascimento"
 const ICON_SPRING = { type: "spring", stiffness: 260, damping: 22 };
 const STORAGE_KEY = "theme";
 const THEME_BG = { dark: "#070b14", light: "#f6f8fb" };
@@ -26,9 +29,25 @@ function applyTheme(theme) {
   }
 }
 
-// Raio necessário para o círculo cobrir a tela inteira a partir do ponto (x, y)
-function coverRadius(x, y) {
-  return Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+// Círculo que cobre a tela inteira a partir do centro do botão, em PORCENTAGEM
+// da própria camada animada. Pixels absolutos podem não bater com o sistema de
+// coordenadas da camada da transição quando há zoom do navegador, escala do
+// Windows ou barra de rolagem; porcentagem é sempre relativa à camada.
+function circleFrom(button) {
+  const rect = button.getBoundingClientRect();
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const x = rect.left + rect.width / 2;
+  const y = rect.top + rect.height / 2;
+  const radius = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
+  // Em clip-path, raio em % é relativo a √(w² + h²) / √2
+  const toPct = (px) => ((px / (Math.hypot(w, h) / Math.SQRT2)) * 100).toFixed(3);
+  const at = `at ${((x / w) * 100).toFixed(3)}% ${((y / h) * 100).toFixed(3)}%`;
+  return [
+    { clipPath: `circle(0% ${at})`, offset: 0, easing: "cubic-bezier(0.2, 0.8, 0.3, 1)" },
+    { clipPath: `circle(${toPct(SEED_RADIUS_PX)}% ${at})`, offset: SEED_AT, easing: "cubic-bezier(0.55, 0, 0.25, 1)" },
+    { clipPath: `circle(${toPct(radius)}% ${at})`, offset: 1 },
+  ];
 }
 
 export default function ThemeToggle() {
@@ -38,20 +57,11 @@ export default function ThemeToggle() {
 
   const toggle = (event) => {
     const next = isDark ? "light" : "dark";
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-    const r = coverRadius(x, y);
-    const clip = [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`];
+    const clip = circleFrom(event.currentTarget);
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const root = document.documentElement;
 
     setPulse((p) => p + 1);
-
-    // Durante a troca, desliga as transições de cor/animações em CSS para que
-    // a página mude de uma vez só, sem "brigar" com o círculo se expandindo
-    const root = document.documentElement;
-    root.classList.add("theme-switching");
-    const done = () => requestAnimationFrame(() => root.classList.remove("theme-switching"));
 
     const commit = () => {
       flushSync(() => setTheme(next));
@@ -60,22 +70,28 @@ export default function ThemeToggle() {
 
     if (reduce) {
       commit();
-      done();
       return;
     }
 
-    // Navegadores com View Transitions: o novo tema "nasce" do botão
+    // Navegadores com View Transitions: o novo tema "nasce" do botão. Durante a
+    // transição o navegador exibe imagens congeladas da página, então não é
+    // preciso pausar animações/transições do site (o que custava desempenho).
     if (document.startViewTransition) {
       const transition = document.startViewTransition(commit);
       transition.ready.then(() => {
-        root.animate(
-          { clipPath: clip },
-          { duration: DURATION, easing: EASING, pseudoElement: "::view-transition-new(root)" }
-        );
+        root.animate(clip, {
+          duration: DURATION,
+          fill: "both",
+          pseudoElement: "::view-transition-new(root)",
+        });
       });
-      transition.finished.finally(done);
       return;
     }
+
+    // Fallback (sem View Transitions): durante a troca, desliga as transições de
+    // cor para a página mudar de uma vez só, atrás da camada circular
+    root.classList.add("theme-switching");
+    const done = () => requestAnimationFrame(() => root.classList.remove("theme-switching"));
 
     // Fallback: camada circular com a cor do novo tema
     const overlay = document.createElement("div");
@@ -83,7 +99,7 @@ export default function ThemeToggle() {
     overlay.style.background = THEME_BG[next];
     document.body.appendChild(overlay);
     overlay
-      .animate({ clipPath: clip }, { duration: DURATION, easing: EASING, fill: "forwards" })
+      .animate(clip, { duration: DURATION, fill: "forwards" })
       .finished.then(() => {
         commit();
         return overlay.animate({ opacity: [1, 0] }, { duration: 300, fill: "forwards" }).finished;

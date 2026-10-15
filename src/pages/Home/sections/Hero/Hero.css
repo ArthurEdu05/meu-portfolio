@@ -315,10 +315,71 @@
   }
 }
 
-/* Telas grandes muito baixas: deixa crescer para nunca cortar conteúdo */
-@media (min-width: 768px) and (max-height: 720px) {
+/* Desktop (duas colunas): o Hero fica sempre travado em 100% da altura.
+   Em telas baixas (notebooks com zoom do Windows, ex.: 1280x650) o conteúdo
+   encolhe pela altura: espaçamentos, nome e foto acompanham a altura da tela. */
+@media (min-width: 901px) {
   .hero {
-    height: auto;
+    padding-top: clamp(4.75rem, 13vh, calc(var(--nav-h) + 3rem));
+    padding-bottom: clamp(3.5rem, 11vh, 6rem);
+  }
+
+  .hero__photo-wrap {
+    width: min(100%, 400px, calc((100svh - 13vh - 11vh - 2rem) * 0.8));
+  }
+}
+
+@media (min-width: 901px) and (max-height: 760px) {
+  .hero__title {
+    margin-bottom: 0.9rem;
+  }
+
+  .hero__name {
+    font-size: min(clamp(2.75rem, 7vw, 4.75rem), 10.5vh);
+  }
+
+  .hero__passion {
+    margin-bottom: 1rem;
+  }
+
+  .hero__summary {
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__actions {
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__scroll {
+    bottom: 1rem;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 620px) {
+  .hero__hello {
+    font-size: 0.95rem;
+  }
+
+  .hero__summary {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero__actions {
+    margin-bottom: 1.25rem;
+  }
+
+  .hero__scroll span {
+    display: none;
+  }
+}
+
+/* Tablet (coluna única com foto): em telas sem altura suficiente, a foto sai
+   para o Hero continuar cabendo em 100% */
+@media (min-width: 768px) and (max-width: 900px) and (max-height: 1100px) {
+  .hero__visual {
+    display: none;
   }
 }
 

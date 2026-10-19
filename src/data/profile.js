@@ -1,4 +1,5 @@
 // Conteúdo centralizado do portfólio. Edite aqui para atualizar o site.
+import { amazonasBerry } from "./projects/amazonasBerry";
 
 export const profile = {
   name: "Arthur Eduardo",
@@ -96,21 +97,9 @@ export const languages = [
 // Enquanto a lista estiver vazia, a seção exibe as caixas de "Em breve".
 // Para publicar um projeto, adicione objetos neste formato:
 // `links` aceita { label, url, kind: "repo" | "live" }; use `private: true` se o código não for público.
+// `featured: true` ocupa a linha inteira; `details` habilita o botão "Ver detalhes" (case técnico em modal).
+// Projetos com case completo ficam em ./projects (ex.: amazonasBerry.js).
 // Rascunhos prontos (descomente quando o projeto estiver no ar):
-//   {
-//     title: "Amazonas Berry",
-//     category: "E-commerce",
-//     description:
-//       "Plataforma de e-commerce completa, com fluxo de compras e painel administrativo para gestão de produtos, pedidos, auditoria e indicadores de vendas.",
-//     highlights: [
-//       "API RESTful em TypeScript com Clean Architecture e CQRS",
-//       "Autenticação e RBAC com Clerk, pagamentos via webhook do Mercado Pago e frete com Mapbox",
-//       "Docker, filas assíncronas com Redis + BullMQ e Transactional Outbox",
-//     ],
-//     tags: ["TypeScript", "React", "Node.js", "Express", "Prisma", "MySQL", "Redis", "Docker"],
-//     private: true,
-//     links: [],
-//   },
 //   {
 //     title: "Portal de Estágios",
 //     category: "Recrutamento",
@@ -146,4 +135,8 @@ export const languages = [
 //       { label: "Ver site", url: "https://tea-site-three.vercel.app", kind: "live" },
 //     ],
 //   },
-export const projects = [];
+export const projects = [amazonasBerry];
+
+// Próximos projetos: aparecem depois dos publicados para mostrar que há mais a caminho.
+// Sem `title`, o card fica como "Próximo projeto"; preencha `title`/`category` quando quiser revelar.
+export const upcomingProjects = [{}, {}];

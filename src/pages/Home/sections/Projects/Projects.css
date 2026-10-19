@@ -212,6 +212,341 @@
   height: 14px;
 }
 
+/* Capa com o logo do projeto sobre a cor da marca */
+.project__cover-brand {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(70% 70% at 50% 45%, color-mix(in srgb, var(--brand-from) 85%, white 6%), transparent 75%),
+    radial-gradient(120% 120% at 0% 0%, var(--brand-from), var(--brand-to) 70%);
+}
+
+.project__cover .project__cover-brand img {
+  position: relative;
+  inset: auto;
+  width: min(58%, 300px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.45));
+  transition: transform 0.6s var(--ease);
+}
+
+.project:hover .project__cover-brand img {
+  transform: scale(1.05);
+}
+
+/* Capa clicável (projetos com case completo) */
+button.project__cover {
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  text-align: inherit;
+}
+
+button.project__cover:focus-visible {
+  outline-offset: -4px;
+  border-radius: 0;
+}
+
+.project__cover-cta {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.project__cover-cta svg {
+  width: 14px;
+  height: 14px;
+}
+
+.project__cover:hover .project__cover-cta,
+.project__cover:focus-visible .project__cover-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project__details {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(91, 155, 255, 0.28);
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.project__details svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s var(--ease);
+}
+
+.project__details:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+}
+
+.project__details:hover svg {
+  transform: scale(1.15);
+}
+
+/* Projeto em destaque: ocupa a linha inteira, capa ao lado do conteúdo */
+.project--featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+}
+
+.project--featured .project__cover {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 300px;
+  border-bottom: none;
+  border-right: 1px solid var(--border);
+}
+
+.project--featured .project__cover img {
+  object-position: left center;
+}
+
+/* A captura já tem o menu do site no topo; o selo desce para não cobri-lo */
+.project--featured .project__category {
+  top: auto;
+  bottom: 0.85rem;
+}
+
+.project--featured .project__body {
+  padding: 1.9rem 2rem 1.75rem;
+}
+
+.project--featured .project__title {
+  font-size: 1.55rem;
+}
+
+/* ==========================================================================
+   Andamento e próximos projetos
+   ========================================================================== */
+.projects__next {
+  margin-top: 2.25rem;
+}
+
+.projects__next-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.projects__next-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  white-space: nowrap;
+}
+
+/* Linha tracejada que "continua" a lista: sugere que ela segue crescendo */
+.projects__next-line {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--border-strong) 0 6px, transparent 6px 12px);
+}
+
+.projects__grid--upcoming {
+  list-style: none;
+}
+
+.upcoming {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-strong);
+  background: var(--surface);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.upcoming:hover {
+  border-color: rgba(91, 155, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+.upcoming__cover {
+  position: relative;
+  aspect-ratio: 16 / 8;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-bottom: 1px dashed var(--border-strong);
+  background: var(--surface-2);
+}
+
+.upcoming__number {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--border-strong);
+}
+
+.upcoming__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  border: 1px dashed var(--border-hover);
+  color: var(--text-subtle);
+}
+
+.upcoming__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.upcoming__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem 1.4rem 1.4rem;
+}
+
+.upcoming__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.upcoming__category {
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+}
+
+/* Linhas de "conteúdo carregando" (skeleton) */
+.upcoming__skeleton {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.upcoming__skeleton span {
+  height: 9px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--tint-2) 0%, var(--tint-3) 50%, var(--tint-2) 100%) 0 0 / 200% 100%;
+  animation: skeleton-shimmer 2.2s linear infinite;
+}
+
+.upcoming__skeleton span:nth-child(1) {
+  width: 92%;
+}
+
+.upcoming__skeleton span:nth-child(2) {
+  width: 78%;
+}
+
+.upcoming__skeleton span:nth-child(3) {
+  width: 46%;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Card de chamada: como acompanhar os próximos */
+.upcoming--cta {
+  border-style: solid;
+  border-color: rgba(91, 155, 255, 0.25);
+  background: radial-gradient(100% 80% at 100% 0%, var(--accent-soft), transparent 70%), var(--surface);
+}
+
+.upcoming__cta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  padding: 1.75rem 1.5rem;
+}
+
+.upcoming__cta-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1.1rem;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  transition: transform 0.4s var(--ease);
+}
+
+.upcoming__cta-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.upcoming--cta:hover .upcoming__cta-icon {
+  transform: rotate(90deg) scale(1.05);
+}
+
+.upcoming__cta h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.upcoming__cta p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.upcoming__cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upcoming__skeleton span {
+    animation: none;
+  }
+}
+
 /* Em breve */
 .soon__message {
   text-align: center;
@@ -304,6 +639,47 @@
   }
 }
 
+@media (max-width: 1040px) and (min-width: 681px) {
+  .upcoming--cta {
+    grid-column: 1 / -1;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .project--featured {
+    display: flex;
+  }
+
+  .project--featured .project__cover {
+    aspect-ratio: 16 / 9;
+    height: auto;
+    min-height: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project--featured .project__body {
+    padding: 1.4rem 1.5rem 1.5rem;
+  }
+
+  .project--featured .project__title {
+    font-size: 1.3rem;
+  }
+
+  .project__cover-cta {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* No celular o botão "Ver detalhes" já faz esse papel e o selo cobriria o logo */
+@media (max-width: 680px) {
+  .project__cover-cta {
+    display: none;
+  }
+}
+
 @media (max-width: 680px) {
   .projects__grid {
     grid-template-columns: 1fr;
@@ -323,7 +699,42 @@
     margin-bottom: 1.75rem;
   }
 
-  .project:hover {
+  .project:hover,
+  .upcoming:hover {
     transform: none;
+  }
+
+  /* No celular, os próximos ficam compactos para não alongar a página */
+  .upcoming {
+    min-height: 0;
+  }
+
+  .upcoming:not(.upcoming--cta) {
+    flex-direction: row;
+  }
+
+  .upcoming:not(.upcoming--cta) .upcoming__cover {
+    width: 38%;
+    aspect-ratio: auto;
+    border-bottom: none;
+    border-right: 1px dashed var(--border-strong);
+  }
+
+
+  .upcoming__number {
+    top: 0.5rem;
+    right: 0.6rem;
+    bottom: auto;
+    font-size: 1.6rem;
+  }
+
+  .upcoming__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .upcoming__body {
+    padding: 1rem 1.1rem;
   }
 }

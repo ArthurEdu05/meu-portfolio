@@ -1,8 +1,22 @@
-import { ArrowUpRight, Briefcase, FolderGit2, HeartHandshake, Lock, Plus, ShoppingBag } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Briefcase,
+  Code2,
+  FolderGit2,
+  HeartHandshake,
+  Lock,
+  Maximize2,
+  Plus,
+  ShoppingBag,
+} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import SectionHeader from "../../../../components/SectionHeader";
 import { Reveal, RevealGroup, RevealItem } from "../../../../components/Reveal";
-import { projects } from "../../../../data/profile";
+import { profile, projects, upcomingProjects } from "../../../../data/profile";
+import ProjectDetails from "./ProjectDetails";
 import "./Projects.css";
 
 const coverIcons = {
@@ -13,15 +27,27 @@ const coverIcons = {
 
 const hues = [220, 260, 170];
 
-function ProjectCard({ title, category, description, highlights = [], tags = [], links = [], image, index, ...rest }) {
+function ProjectCard({ title, category, summary, description, highlights = [], tags = [], links = [], image, cover, index, featured, details, onOpen, ...rest }) {
   const Icon = coverIcons[category] || FolderGit2;
   const isPrivate = rest.private;
+  const CoverTag = details ? "button" : "div";
 
   return (
-    <RevealItem as="article" className="project card-hover">
-      <div className="project__cover" style={{ "--hue": hues[index % hues.length] }}>
-        {image ? (
-          <img src={image} alt={`Captura de tela do projeto ${title}`} loading="lazy" />
+    <RevealItem as="article" className={`project card-hover${featured ? " project--featured" : ""}`}>
+      <CoverTag
+        className="project__cover"
+        style={{ "--hue": hues[index % hues.length] }}
+        {...(details && { type: "button", onClick: onOpen, "aria-label": `Ver detalhes do projeto ${title}` })}
+      >
+        {cover?.logo ? (
+          <span
+            className="project__cover-brand"
+            style={{ "--brand-from": cover.from, "--brand-to": cover.to }}
+          >
+            <img src={cover.logo} alt={details ? "" : `Logo do projeto ${title}`} loading="lazy" />
+          </span>
+        ) : image ? (
+          <img src={image} alt={details ? "" : `Captura de tela do projeto ${title}`} loading="lazy" />
         ) : (
           <>
             <span className="project__cover-grid" aria-hidden="true" />
@@ -30,12 +56,18 @@ function ProjectCard({ title, category, description, highlights = [], tags = [],
             </span>
           </>
         )}
+        {details && (
+          <span className="project__cover-cta" aria-hidden="true">
+            <Maximize2 />
+            Ver case completo
+          </span>
+        )}
         <span className="project__category">{category}</span>
-      </div>
+      </CoverTag>
 
       <div className="project__body">
         <h3 className="project__title">{title}</h3>
-        <p className="project__desc">{description}</p>
+        <p className="project__desc">{summary || description}</p>
 
         {highlights.length > 0 && (
           <ul className="project__highlights">
@@ -54,6 +86,12 @@ function ProjectCard({ title, category, description, highlights = [], tags = [],
         )}
 
         <div className="project__links">
+          {details && (
+            <button type="button" className="project__details" onClick={onOpen}>
+              Ver detalhes
+              <Maximize2 aria-hidden="true" />
+            </button>
+          )}
           {links.map(({ label, url, kind }) => (
             <a
               key={url}
@@ -74,6 +112,59 @@ function ProjectCard({ title, category, description, highlights = [], tags = [],
               Código privado
             </span>
           )}
+        </div>
+      </div>
+    </RevealItem>
+  );
+}
+
+// Próximos projetos: mesmo formato dos cards publicados, com conteúdo ainda "carregando"
+function UpcomingCard({ title, category, number }) {
+  return (
+    <RevealItem as="li" className="upcoming">
+      <div className="upcoming__cover">
+        <span className="project__cover-grid" aria-hidden="true" />
+        <span className="upcoming__number" aria-hidden="true">
+          #{String(number).padStart(2, "0")}
+        </span>
+        <span className="upcoming__icon" aria-hidden="true">
+          <Code2 />
+        </span>
+      </div>
+      <div className="upcoming__body">
+        <h3 className="upcoming__title">
+          {title || "Próximo projeto"}
+          <span className="sr-only"> (projeto {number})</span>
+        </h3>
+        {category ? <p className="upcoming__category">{category}</p> : null}
+        <div className="upcoming__skeleton" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+    </RevealItem>
+  );
+}
+
+function FollowCard() {
+  return (
+    <RevealItem as="li" className="upcoming upcoming--cta">
+      <div className="upcoming__cta">
+        <span className="upcoming__cta-icon" aria-hidden="true">
+          <Plus />
+        </span>
+        <h3>Mais projetos a caminho</h3>
+        <p>Novos projetos entram aqui assim que forem publicados.</p>
+        <div className="upcoming__cta-actions">
+          <a href={profile.githubUrl} target="_blank" rel="noopener noreferrer" className="project__link">
+            <FaGithub aria-hidden="true" />
+            Ver GitHub
+          </a>
+          <a href="#contact" className="project__link">
+            Falar comigo
+            <ArrowRight aria-hidden="true" />
+          </a>
         </div>
       </div>
     </RevealItem>
@@ -103,6 +194,8 @@ function ComingSoon() {
 }
 
 export default function Projects() {
+  const [active, setActive] = useState(null);
+
   return (
     <section className="section section--alt projects" id="projects" aria-labelledby="projects-title">
       <div className="container">
@@ -110,18 +203,39 @@ export default function Projects() {
           id="projects-title"
           eyebrow="03 · Projetos"
           title="Projetos"
-          subtitle="Um espaço para os projetos que estou desenvolvendo e publicando."
+          subtitle="Projetos já em produção, com detalhes técnicos de cada um. Outros estão em desenvolvimento e entram aqui em breve."
         />
 
         {projects.length === 0 ? (
           <ComingSoon />
         ) : (
-          <RevealGroup className="projects__grid" stagger={0.12}>
-            {projects.map((p, i) => (
-              <ProjectCard key={p.title} index={i} {...p} />
-            ))}
-          </RevealGroup>
+          <>
+            <RevealGroup className="projects__grid" stagger={0.12}>
+              {projects.map((p, i) => (
+                <ProjectCard key={p.title} index={i} {...p} onOpen={() => setActive(p)} />
+              ))}
+            </RevealGroup>
+
+            {upcomingProjects.length > 0 && (
+              <div className="projects__next">
+                <Reveal className="projects__next-head" y={12}>
+                  <span className="projects__next-label">Próximos projetos</span>
+                  <span className="projects__next-line" aria-hidden="true" />
+                </Reveal>
+                <RevealGroup as="ul" className="projects__grid projects__grid--upcoming" stagger={0.1}>
+                  {upcomingProjects.map((p, i) => (
+                    <UpcomingCard key={i} {...p} number={projects.length + i + 1} />
+                  ))}
+                  <FollowCard />
+                </RevealGroup>
+              </div>
+            )}
+          </>
         )}
+
+        <AnimatePresence>
+          {active && <ProjectDetails key={active.title} project={active} onClose={() => setActive(null)} />}
+        </AnimatePresence>
       </div>
     </section>
   );

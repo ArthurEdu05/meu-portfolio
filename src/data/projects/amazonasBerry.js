@@ -1,4 +1,4 @@
-// Case técnico do Amazonas Berry. As capturas foram feitas no site em produção.
+// Ficha técnica do Amazonas Berry. As capturas foram feitas no site em produção.
 import homeHero from "../../assets/images/projects/amazonas-berry/home-hero.jpg";
 import homeProdutos from "../../assets/images/projects/amazonas-berry/home-produtos.jpg";
 import catalogo from "../../assets/images/projects/amazonas-berry/catalogo.jpg";
@@ -14,7 +14,6 @@ export const amazonasBerry = {
   slug: "amazonas-berry",
   title: "Amazonas Berry",
   category: "E-commerce",
-  featured: true,
   // Capa do card: logo sobre a cor da marca (as capturas aparecem nos detalhes)
   cover: { logo, from: "#4a1468", to: "#14061d" },
   description:
@@ -413,30 +412,56 @@ export const amazonasBerry = {
       ],
     },
 
+    // `items` são as tecnologias principais (em destaque); `extras` são as bibliotecas e ferramentas de apoio
     stack: [
       {
+        group: "Linguagens",
+        items: ["TypeScript", "JavaScript", "SQL", "CSS (Tailwind)"],
+      },
+      {
         group: "Frontend",
-        items: ["React 19", "TypeScript", "TanStack Start (SSR · Nitro)", "TanStack Router", "TanStack Query", "Tailwind CSS 4", "shadcn/ui + Radix UI", "React Hook Form", "Zod", "Motion", "Recharts", "Embla Carousel", "React Day Picker", "date-fns", "Sonner", "Vite"],
+        items: ["React 19", "TanStack Start (SSR)", "TanStack Router", "TanStack Query", "Vite 7", "Tailwind CSS 4", "shadcn/ui", "Radix UI"],
+        extras: ["React DOM", "Nitro (node-server)", "@vitejs/plugin-react", "vite-tsconfig-paths", "Lovable (base do projeto)", "tailwind-merge", "clsx", "class-variance-authority", "tw-animate-css"],
+      },
+      {
+        group: "Formulários, UI e utilitários",
+        items: ["React Hook Form", "Zod", "Motion", "Recharts"],
+        extras: ["@hookform/resolvers", "Lucide React", "React Icons", "Embla Carousel", "Sonner", "Vaul", "cmdk", "input-otp", "React Day Picker", "react-resizable-panels", "date-fns"],
       },
       {
         group: "Backend",
-        items: ["Node.js 22", "TypeScript", "Express", "Prisma ORM", "BullMQ", "ioredis", "@clerk/backend", "node:crypto (HMAC, SHA-256)"],
+        items: ["Node.js 22", "Express 4", "Prisma 5", "BullMQ", "ioredis"],
+        extras: ["@clerk/backend", "node:crypto (HMAC, SHA-256)", "dotenv", "ts-node", "concurrently"],
       },
       {
         group: "Dados",
-        items: ["MySQL", "Redis 7 (AOF · noeviction)", "Prisma Migrate (14 migrations)", "Scripts Lua no Redis"],
+        items: ["MySQL", "Redis 7.4"],
+        extras: ["Prisma Migrate (14 migrations)", "Redis com AOF e noeviction", "Scripts Lua no Redis"],
+      },
+      {
+        group: "Autenticação e pagamentos",
+        items: ["Clerk", "Mercado Pago Bricks (Pix e cartão)", "Mercado Pago Checkout Pro"],
+        extras: ["@clerk/clerk-react", "Webhooks do Clerk assinados", "Webhooks do Mercado Pago com assinatura HMAC", "Estornos via API do Mercado Pago"],
       },
       {
         group: "Integrações",
-        items: ["Mercado Pago Payment Bricks", "Mercado Pago Webhooks e Estornos", "Clerk (auth + webhooks assinados)", "Mapbox Geocoding", "Mapbox Directions", "Mapbox Static Images", "ViaCEP", "WhatsApp Cloud API (Meta)", "Chatwoot", "Google Analytics 4"],
+        items: ["Meta WhatsApp Cloud API", "Chatwoot (self-hosted)", "Mapbox"],
+        extras: ["Mapbox Geocoding", "Mapbox Directions", "Mapbox Static Images", "ViaCEP", "Google Analytics 4", "Analytics próprio do site"],
       },
       {
         group: "Infra e DevOps",
-        items: ["Docker (multi-stage)", "Docker Compose", "Caddy (HTTPS automático)", "VPS Linux", "GitHub Actions", "Deploy via SSH com flock", "Dependabot"],
+        items: ["Docker", "Docker Compose", "Caddy 2.10", "GitHub Actions"],
+        extras: ["Build multi-stage (node:22-bookworm-slim)", "Ambientes de dev, staging e produção", "HTTPS automático via ACME", "Deploy via SSH com flock", "VPS Linux", "Dependabot", "npm", "bunfig com trava de 24h contra supply chain"],
       },
       {
-        group: "Qualidade e segurança",
-        items: ["node:test (290+ testes)", "Testes de arquitetura", "Typecheck estrito", "ESLint + Prettier", "npm audit", "CSP por rota", "Rate limit distribuído", "Audit log", "Health e readiness checks"],
+        group: "Testes e qualidade",
+        items: ["Node.js Test Runner (290+ testes)", "k6 (testes de carga)", "ESLint 9", "Prettier"],
+        extras: ["typescript-eslint", "eslint-plugin-react-hooks", "eslint-plugin-react-refresh", "Testes de arquitetura", "Typecheck estrito", "npm audit"],
+      },
+      {
+        group: "Segurança e operação",
+        items: ["CSP por rota", "Rate limit distribuído", "Audit log"],
+        extras: ["Headers de segurança (HSTS, X-Frame-Options…)", "Logs estruturados sem dados pessoais", "Health e readiness checks", "Graceful shutdown"],
       },
     ],
 

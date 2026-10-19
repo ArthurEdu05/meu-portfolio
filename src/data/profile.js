@@ -97,8 +97,8 @@ export const languages = [
 // Enquanto a lista estiver vazia, a seção exibe as caixas de "Em breve".
 // Para publicar um projeto, adicione objetos neste formato:
 // `links` aceita { label, url, kind: "repo" | "live" }; use `private: true` se o código não for público.
-// `featured: true` ocupa a linha inteira; `details` habilita o botão "Ver detalhes" (case técnico em modal).
-// Projetos com case completo ficam em ./projects (ex.: amazonasBerry.js).
+// `details` habilita o botão "Ver detalhes" (ficha técnica em modal); `cover: { logo, from, to }` usa o logo como capa.
+// Projetos com ficha técnica completa ficam em ./projects (ex.: amazonasBerry.js).
 // Rascunhos prontos (descomente quando o projeto estiver no ar):
 //   {
 //     title: "Portal de Estágios",

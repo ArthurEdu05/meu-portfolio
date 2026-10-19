@@ -551,11 +551,20 @@ function StackTab({ stack, pipeline }) {
         {stack.map((g) => (
           <div key={g.group} className="pd-stack__group">
             <h4>{g.group}</h4>
-            <ul>
+            <ul aria-label={`${g.group}: principais`}>
               {g.items.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item} className="pd-stack__main">
+                  {item}
+                </li>
               ))}
             </ul>
+            {g.extras?.length > 0 && (
+              <ul className="pd-stack__extras" aria-label={`${g.group}: complementares`}>
+                {g.extras.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            )}
           </div>
         ))}
       </div>
@@ -667,7 +676,7 @@ export default function ProjectDetails({ project, onClose }) {
           <span className="pd-topbar__title">
             <span className="pd-dot" aria-hidden="true" />
             {title}
-            <span className="pd-topbar__sub">· Case técnico</span>
+            <span className="pd-topbar__sub">· Ficha técnica</span>
           </span>
           <button ref={closeRef} type="button" className="pd-close" onClick={onClose} aria-label="Fechar detalhes do projeto">
             <X aria-hidden="true" />
@@ -738,7 +747,7 @@ export default function ProjectDetails({ project, onClose }) {
           </section>
 
           <div className="pd-tabs" ref={tabsRef}>
-            <div className="pd-tabs__list" role="tablist" aria-label="Seções do case técnico" onKeyDown={onTabKey}>
+            <div className="pd-tabs__list" role="tablist" aria-label="Seções da ficha técnica" onKeyDown={onTabKey}>
               {tabs.map(({ id, label, Icon }) => (
                 <button
                   key={id}

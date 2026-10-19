@@ -27,13 +27,13 @@ const coverIcons = {
 
 const hues = [220, 260, 170];
 
-function ProjectCard({ title, category, summary, description, highlights = [], tags = [], links = [], image, cover, index, featured, details, onOpen, ...rest }) {
+function ProjectCard({ title, category, summary, description, highlights = [], tags = [], links = [], image, cover, index, details, onOpen, ...rest }) {
   const Icon = coverIcons[category] || FolderGit2;
   const isPrivate = rest.private;
   const CoverTag = details ? "button" : "div";
 
   return (
-    <RevealItem as="article" className={`project card-hover${featured ? " project--featured" : ""}`}>
+    <RevealItem as="article" className="project card-hover">
       <CoverTag
         className="project__cover"
         style={{ "--hue": hues[index % hues.length] }}
@@ -59,7 +59,7 @@ function ProjectCard({ title, category, summary, description, highlights = [], t
         {details && (
           <span className="project__cover-cta" aria-hidden="true">
             <Maximize2 />
-            Ver case completo
+            Ver ficha técnica
           </span>
         )}
         <span className="project__category">{category}</span>
@@ -118,10 +118,10 @@ function ProjectCard({ title, category, summary, description, highlights = [], t
   );
 }
 
-// Próximos projetos: mesmo formato dos cards publicados, com conteúdo ainda "carregando"
+// Próximos projetos: mesmo formato e tamanho dos cards publicados, com conteúdo ainda "carregando"
 function UpcomingCard({ title, category, number }) {
   return (
-    <RevealItem as="li" className="upcoming">
+    <RevealItem as="article" className="upcoming">
       <div className="upcoming__cover">
         <span className="project__cover-grid" aria-hidden="true" />
         <span className="upcoming__number" aria-hidden="true">
@@ -142,6 +142,16 @@ function UpcomingCard({ title, category, number }) {
           <span />
           <span />
         </div>
+        <div className="upcoming__chips" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="upcoming__footer" aria-hidden="true">
+          <span />
+          <span />
+        </div>
       </div>
     </RevealItem>
   );
@@ -149,7 +159,7 @@ function UpcomingCard({ title, category, number }) {
 
 function FollowCard() {
   return (
-    <RevealItem as="li" className="upcoming upcoming--cta">
+    <RevealItem as="aside" className="upcoming upcoming--cta">
       <div className="upcoming__cta">
         <span className="upcoming__cta-icon" aria-hidden="true">
           <Plus />
@@ -203,34 +213,22 @@ export default function Projects() {
           id="projects-title"
           eyebrow="03 · Projetos"
           title="Projetos"
-          subtitle="Projetos já em produção, com detalhes técnicos de cada um. Outros estão em desenvolvimento e entram aqui em breve."
+          subtitle="Projetos onde transformo ideias e necessidades em soluções que geram valor. Abra cada projeto para conhecer a arquitetura, as tecnologias e as decisões técnicas por trás dele."
         />
 
         {projects.length === 0 ? (
           <ComingSoon />
         ) : (
-          <>
-            <RevealGroup className="projects__grid" stagger={0.12}>
-              {projects.map((p, i) => (
-                <ProjectCard key={p.title} index={i} {...p} onOpen={() => setActive(p)} />
-              ))}
-            </RevealGroup>
-
-            {upcomingProjects.length > 0 && (
-              <div className="projects__next">
-                <Reveal className="projects__next-head" y={12}>
-                  <span className="projects__next-label">Próximos projetos</span>
-                  <span className="projects__next-line" aria-hidden="true" />
-                </Reveal>
-                <RevealGroup as="ul" className="projects__grid projects__grid--upcoming" stagger={0.1}>
-                  {upcomingProjects.map((p, i) => (
-                    <UpcomingCard key={i} {...p} number={projects.length + i + 1} />
-                  ))}
-                  <FollowCard />
-                </RevealGroup>
-              </div>
-            )}
-          </>
+          // Publicados e próximos dividem a mesma grade (2 por linha), para a seção já ter o formato final
+          <RevealGroup className="projects__grid" stagger={0.1}>
+            {projects.map((p, i) => (
+              <ProjectCard key={p.title} index={i} {...p} onOpen={() => setActive(p)} />
+            ))}
+            {upcomingProjects.map((p, i) => (
+              <UpcomingCard key={`upcoming-${i}`} {...p} number={projects.length + i + 1} />
+            ))}
+            {upcomingProjects.length > 0 && <FollowCard />}
+          </RevealGroup>
         )}
 
         <AnimatePresence>

@@ -1,6 +1,6 @@
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
   align-items: stretch;
 }
@@ -236,7 +236,7 @@
   transform: scale(1.05);
 }
 
-/* Capa clicável (projetos com case completo) */
+/* Capa clicável (projetos com ficha técnica) */
 button.project__cover {
   width: 100%;
   padding: 0;
@@ -312,77 +312,12 @@ button.project__cover:focus-visible {
   transform: scale(1.15);
 }
 
-/* Projeto em destaque: ocupa a linha inteira, capa ao lado do conteúdo */
-.project--featured {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-}
-
-.project--featured .project__cover {
-  aspect-ratio: auto;
-  height: 100%;
-  min-height: 300px;
-  border-bottom: none;
-  border-right: 1px solid var(--border);
-}
-
-.project--featured .project__cover img {
-  object-position: left center;
-}
-
-/* A captura já tem o menu do site no topo; o selo desce para não cobri-lo */
-.project--featured .project__category {
-  top: auto;
-  bottom: 0.85rem;
-}
-
-.project--featured .project__body {
-  padding: 1.9rem 2rem 1.75rem;
-}
-
-.project--featured .project__title {
-  font-size: 1.55rem;
-}
-
 /* ==========================================================================
-   Andamento e próximos projetos
+   Próximos projetos (mesma grade dos publicados)
    ========================================================================== */
-.projects__next {
-  margin-top: 2.25rem;
-}
-
-.projects__next-head {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.1rem;
-}
-
-.projects__next-label {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-subtle);
-  white-space: nowrap;
-}
-
-/* Linha tracejada que "continua" a lista: sugere que ela segue crescendo */
-.projects__next-line {
-  flex: 1;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, var(--border-strong) 0 6px, transparent 6px 12px);
-}
-
-.projects__grid--upcoming {
-  list-style: none;
-}
-
 .upcoming {
   display: flex;
   flex-direction: column;
-  min-height: 300px;
   border-radius: var(--radius-lg);
   border: 1px dashed var(--border-strong);
   background: var(--surface);
@@ -478,6 +413,51 @@ button.project__cover:focus-visible {
   width: 46%;
 }
 
+.upcoming__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.25rem 0;
+}
+
+.upcoming__chips span {
+  width: 64px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--tint-2);
+}
+
+.upcoming__chips span:nth-child(2) {
+  width: 48px;
+}
+
+.upcoming__chips span:nth-child(3) {
+  width: 80px;
+}
+
+.upcoming__footer {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.upcoming__footer span {
+  width: 116px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px dashed var(--border-strong);
+}
+
+.upcoming__footer span:nth-child(2) {
+  width: 72px;
+  border: none;
+  background: var(--tint-2);
+  height: 14px;
+  align-self: center;
+}
+
 @keyframes skeleton-shimmer {
   to {
     background-position: -200% 0;
@@ -530,6 +510,30 @@ button.project__cover:focus-visible {
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--text-muted);
+}
+
+.projects__grid > .upcoming--cta:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.projects__grid > .upcoming--cta:nth-child(odd) .upcoming__cta {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 1.25rem;
+}
+
+.projects__grid > .upcoming--cta:nth-child(odd) .upcoming__cta-icon {
+  grid-row: span 2;
+  margin-bottom: 0;
+}
+
+.projects__grid > .upcoming--cta:nth-child(odd) .upcoming__cta-actions {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .upcoming__cta-actions {
@@ -633,48 +637,8 @@ button.project__cover:focus-visible {
   color: var(--text-subtle);
 }
 
-@media (max-width: 1040px) {
-  .projects__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 1040px) and (min-width: 681px) {
-  .upcoming--cta {
-    grid-column: 1 / -1;
-    min-height: 0;
-  }
-}
-
+/* Em telas menores não há hover; o botão "Ver detalhes" já faz esse papel e o selo cobriria o logo */
 @media (max-width: 860px) {
-  .project--featured {
-    display: flex;
-  }
-
-  .project--featured .project__cover {
-    aspect-ratio: 16 / 9;
-    height: auto;
-    min-height: 0;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .project--featured .project__body {
-    padding: 1.4rem 1.5rem 1.5rem;
-  }
-
-  .project--featured .project__title {
-    font-size: 1.3rem;
-  }
-
-  .project__cover-cta {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* No celular o botão "Ver detalhes" já faz esse papel e o selo cobriria o logo */
-@media (max-width: 680px) {
   .project__cover-cta {
     display: none;
   }
@@ -705,8 +669,24 @@ button.project__cover:focus-visible {
   }
 
   /* No celular, os próximos ficam compactos para não alongar a página */
-  .upcoming {
-    min-height: 0;
+  .upcoming__chips,
+  .upcoming__footer {
+    display: none;
+  }
+
+  /* Uma coluna: a chamada final volta ao formato vertical */
+  .projects__grid > .upcoming--cta:nth-child(odd) .upcoming__cta {
+    display: flex;
+  }
+
+  .projects__grid > .upcoming--cta:nth-child(odd) .upcoming__cta-icon {
+    margin-bottom: 1.1rem;
+  }
+
+  .projects__grid > .upcoming--cta:nth-child(odd) .upcoming__cta-actions {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
   }
 
   .upcoming:not(.upcoming--cta) {

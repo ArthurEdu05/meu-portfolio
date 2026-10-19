@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Case técnico do projeto (modal)
+   Ficha técnica do projeto (modal)
    ========================================================================== */
 .pd-overlay {
   position: fixed;
@@ -1097,6 +1097,7 @@
 .pd-stack__groups {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  align-items: start;
   gap: 0.85rem;
 }
 
@@ -1131,6 +1132,26 @@
   background: var(--tint-2);
   font-size: 0.8rem;
   color: var(--text);
+}
+
+/* Tecnologias principais em destaque */
+.pd-stack__group li.pd-stack__main {
+  border-color: rgba(91, 155, 255, 0.3);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Bibliotecas e ferramentas de apoio, mais discretas */
+.pd-stack__extras {
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--border);
+}
+
+.pd-stack__extras li {
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 /* Arquitetura: blocos temáticos */

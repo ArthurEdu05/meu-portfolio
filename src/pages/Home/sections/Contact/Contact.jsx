@@ -31,7 +31,7 @@ function validate(values) {
   if (!values.name.trim()) errors.name = "Informe seu nome.";
   if (!values.email.trim()) errors.email = "Informe seu e-mail.";
   else if (!EMAIL_RE.test(values.email.trim()))
-    errors.email = "Verifique o e-mail — ex.: nome@empresa.com";
+    errors.email = "Verifique o e-mail - ex.: nome@empresa.com";
   if (values.message.trim().length < 10)
     errors.message = "Escreva uma mensagem com pelo menos 10 caracteres.";
   return errors;

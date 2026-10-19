@@ -22,13 +22,56 @@
   width: 100%;
   max-width: 1120px;
   height: 100%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-strong);
   background: var(--bg);
   box-shadow: var(--shadow-lg);
-  scrollbar-width: thin;
+}
+
+/* Área rolável: fica abaixo do cabeçalho e dentro das bordas arredondadas */
+.pd-scroll {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* O html define scrollbar-color, que é herdado e faria o Chrome ignorar o estilo abaixo (e mostrar as setas) */
+  scrollbar-color: auto;
+  scrollbar-width: auto;
+}
+
+/* Barra de rolagem fina e sem setas (Chrome, Edge, Safari) */
+.pd-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.pd-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 6px 0 16px;
+}
+
+.pd-scroll::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border: 3px solid transparent;
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+
+.pd-scroll::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Firefox */
+@supports not selector(::-webkit-scrollbar) {
+  .pd-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) transparent;
+  }
 }
 
 .pd-panel:focus {
@@ -37,8 +80,8 @@
 
 /* Barra superior fixa */
 .pd-topbar {
-  position: sticky;
-  top: 0;
+  position: relative;
+  flex-shrink: 0;
   z-index: 3;
   display: flex;
   align-items: center;
@@ -420,7 +463,7 @@
 /* Abas */
 .pd-tabs {
   position: sticky;
-  top: 64px;
+  top: 0;
   z-index: 2;
   margin: 0 calc(-1 * clamp(1.25rem, 4vw, 2.75rem)) 1.75rem;
   padding: 0 clamp(1.25rem, 4vw, 2.75rem);
@@ -495,7 +538,6 @@
 }
 
 .pd-lead {
-  max-width: 75ch;
   color: var(--text-muted);
   line-height: 1.75;
 }
@@ -1029,13 +1071,6 @@
   font-weight: 600;
 }
 
-.pd-state code {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  color: var(--accent);
-}
-
 .pd-states__item:last-child .pd-state {
   border-color: var(--success);
 }
@@ -1093,74 +1128,73 @@
   color: var(--text-muted);
 }
 
-/* Stack */
-.pd-stack__groups {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  align-items: start;
-  gap: 0.85rem;
-}
-
-.pd-stack__group {
-  padding: 1.2rem;
+/* Stack: lista de camadas (título e papel à esquerda, tecnologias à direita) */
+.pd-stack__rows {
+  list-style: none;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--surface);
+  overflow: hidden;
 }
 
-.pd-stack__group h4 {
-  margin-bottom: 0.8rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-subtle);
+.pd-stack__row {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.1rem 1.3rem;
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.2s var(--ease);
 }
 
-.pd-stack__group ul {
-  list-style: none;
+.pd-stack__row:last-child {
+  border-bottom: none;
+}
+
+.pd-stack__row:hover {
+  background: var(--tint-1);
+}
+
+.pd-stack__head {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  align-items: flex-start;
+  gap: 0.8rem;
 }
 
-.pd-stack__group li {
-  padding: 0.3rem 0.65rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--tint-2);
+.pd-stack__head h4 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.pd-stack__head p {
   font-size: 0.8rem;
-  color: var(--text);
-}
-
-/* Tecnologias principais em destaque */
-.pd-stack__group li.pd-stack__main {
-  border-color: rgba(91, 155, 255, 0.3);
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* Bibliotecas e ferramentas de apoio, mais discretas */
-.pd-stack__extras {
-  margin-top: 0.7rem;
-  padding-top: 0.7rem;
-  border-top: 1px dashed var(--border);
-}
-
-.pd-stack__extras li {
-  font-size: 0.75rem;
+  line-height: 1.5;
   color: var(--text-muted);
 }
 
-/* Arquitetura: blocos temáticos */
-.pd-subtitle--icon {
+.pd-stack__chips {
+  list-style: none;
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  flex-wrap: wrap;
+  gap: 0.45rem;
 }
 
+.pd-stack__chips li {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(91, 155, 255, 0.25);
+  background: var(--accent-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pd-stack .pd-lead {
+  margin-bottom: 1.1rem;
+}
+
+/* Arquitetura: blocos temáticos */
 .pd-icon--sm {
   width: 32px;
   height: 32px;
@@ -1172,30 +1206,9 @@
   height: 16px;
 }
 
-.pd-facet__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.7rem;
-}
-
-.pd-facet__item {
-  padding: 1rem 1.1rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  border-left: 2px solid var(--accent);
-  background: var(--surface);
-}
-
-.pd-facet__item strong {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-size: 0.92rem;
-}
-
-.pd-facet__item p {
-  font-size: 0.84rem;
-  line-height: 1.6;
-  color: var(--text-muted);
+/* Blocos temáticos da Arquitetura: espaço entre as seções (os cards usam o estilo de Padrões) */
+.pd-facet .pd-subtitle {
+  margin-top: 2.25rem;
 }
 
 /* Segurança & Acesso */
@@ -1234,141 +1247,13 @@
   font-size: 0.95rem;
 }
 
-.pd-role code {
-  margin-left: 0.35rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--accent);
-}
-
 .pd-role span {
   font-size: 0.82rem;
   color: var(--text-muted);
 }
 
-.pd-matrix-wrap {
-  overflow-x: auto;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--surface);
-}
-
-.pd-matrix {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.86rem;
-}
-
-.pd-matrix th,
-.pd-matrix td {
-  padding: 0.65rem 1rem;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  vertical-align: middle;
-}
-
-.pd-matrix thead th {
-  position: sticky;
-  top: 0;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-subtle);
-  background: var(--surface-2);
-}
-
-.pd-matrix thead th:not(:first-child),
-.pd-matrix td {
-  width: 120px;
-  text-align: center;
-}
-
-.pd-matrix tbody th {
-  font-weight: 400;
-}
-
-.pd-matrix tbody th code {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--accent);
-}
-
-.pd-matrix tbody th span {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-}
-
-.pd-matrix__group th {
-  padding-top: 0.9rem;
-  font-family: var(--font-display);
-  font-size: 0.82rem !important;
-  font-weight: 700 !important;
-  color: var(--text);
-  background: var(--tint-1);
-}
-
-.pd-matrix tbody:last-child tr:last-child th,
-.pd-matrix tbody:last-child tr:last-child td {
-  border-bottom: none;
-}
-
-.pd-matrix td svg {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-}
-
-.pd-matrix__short {
-  display: none;
-}
-
-.pd-yes {
-  color: var(--success);
-}
-
-.pd-no {
-  color: var(--text-subtle);
-  opacity: 0.6;
-}
-
 .pd-note--muted svg {
   color: var(--accent);
-}
-
-.pd-defense {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 0.75rem;
-}
-
-.pd-defense__layer {
-  padding: 1.1rem 1.2rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--surface);
-}
-
-.pd-defense__name {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin-bottom: 0.75rem;
-  font-family: var(--font-display);
-  font-weight: 700;
-}
-
-.pd-defense__name svg {
-  width: 18px;
-  height: 18px;
-  color: var(--accent);
-}
-
-.pd-defense .pd-list li {
-  font-size: 0.85rem;
 }
 
 /* Padrões agrupados */
@@ -1451,37 +1336,22 @@
     border: none;
   }
 
+  .pd-stack__row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
   .pd-areas,
   .pd-roles {
     grid-template-columns: 1fr;
   }
 
-  .pd-facet__grid,
-  .pd-defense {
-    grid-template-columns: 1fr;
-  }
 
-  .pd-matrix th,
-  .pd-matrix td {
-    padding: 0.6rem 0.7rem;
-  }
 
-  .pd-matrix thead th:not(:first-child),
-  .pd-matrix td {
-    width: 64px;
-  }
 
-  .pd-matrix thead th {
-    letter-spacing: 0.04em;
-  }
 
-  .pd-matrix__full {
-    display: none;
-  }
 
-  .pd-matrix__short {
-    display: inline;
-  }
 
   .pd-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1533,7 +1403,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .pd-stack__groups,
   .pd-patterns {
     grid-template-columns: 1fr;
   }

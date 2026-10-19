@@ -35,7 +35,7 @@ export const experience = [
     company: "Tokio Marine Seguradora",
     role: "Desenvolvedor Full Stack",
     type: "Estágio",
-    period: "Mar 2026 — Atual",
+    period: "Mar 2026 - Atual",
     current: true,
     location: "São Paulo, SP · Híbrido",
     highlights: [
@@ -48,7 +48,7 @@ export const experience = [
     company: "Sete Partners",
     role: "Desenvolvedor Full Stack",
     type: "Estágio",
-    period: "Jul 2025 — Dez 2025",
+    period: "Jul 2025 - Dez 2025",
     location: "São Paulo, SP · Presencial",
     highlights: [
       "Desenvolvi por completo o Portal de Financiamento NX Boats & Naval Crédito, que gerencia a análise de crédito de clientes interessados em financiamentos náuticos.",
@@ -61,7 +61,7 @@ export const experience = [
     company: "BeBrasil",
     role: "Analista de Dados",
     type: "Estágio",
-    period: "Fev 2025 — Jul 2025",
+    period: "Fev 2025 - Jul 2025",
     location: "São Paulo, SP · Presencial",
     highlights: [
       "Automatizei processos manuais e atualizei códigos Python, mantendo integrações com APIs ativas e adaptando soluções a mudanças em plataformas externas.",
@@ -76,7 +76,7 @@ export const education = [
     institution: "Universidade Mackenzie",
     course: "Sistemas de Informação",
     type: "Bacharelado",
-    period: "Jan 2024 — Dez 2027",
+    period: "Jan 2024 - Dez 2027",
     location: "São Paulo, SP",
     current: true,
   },
@@ -84,7 +84,7 @@ export const education = [
     institution: "FECAP",
     course: "Técnico em Informática",
     type: "Ensino Técnico",
-    period: "Fev 2021 — Nov 2023",
+    period: "Fev 2021 - Nov 2023",
     location: "São Paulo, SP",
   },
 ];

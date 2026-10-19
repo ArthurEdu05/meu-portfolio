@@ -8,15 +8,11 @@ import {
   ArrowRight,
   ArrowUpRight,
   Boxes,
-  Check,
   ChevronLeft,
   ChevronRight,
   ClipboardList,
   Cloud,
-  CreditCard,
   Database,
-  FileCheck,
-  Gauge,
   GitBranch,
   Globe,
   Images,
@@ -26,11 +22,8 @@ import {
   ListOrdered,
   Lock,
   MessageCircle,
-  Minus,
   Monitor,
-  Package,
   Server,
-  Settings,
   ShieldCheck,
   Smartphone,
   Store,
@@ -42,6 +35,11 @@ import {
   Workflow,
   X,
   Zap,
+  Code2,
+  Container,
+  FlaskConical,
+  Palette,
+  Plug,
 } from "lucide-react";
 import "./ProjectDetails.css";
 
@@ -57,6 +55,13 @@ const icons = {
   chart: TrendingUp,
   chat: MessageCircle,
   images: Images,
+  code: Code2,
+  ui: Palette,
+  server: Server,
+  key: KeyRound,
+  plug: Plug,
+  container: Container,
+  test: FlaskConical,
   frontend: AppWindow,
   database: Database,
   queue: ListOrdered,
@@ -64,22 +69,17 @@ const icons = {
   activity: Activity,
   globe: Globe,
   shield: ShieldCheck,
-  gauge: Gauge,
-  card: CreditCard,
   browser: Monitor,
-  file: FileCheck,
   lock: Lock,
-  settings: Settings,
-  package: Package,
 };
 
 const tabs = [
   { id: "areas", label: "Áreas do sistema", Icon: LayoutDashboard },
-  { id: "arquitetura", label: "Arquitetura", Icon: Layers },
-  { id: "seguranca", label: "Segurança & Acesso", Icon: KeyRound },
-  { id: "padroes", label: "Padrões", Icon: Boxes },
-  { id: "fluxos", label: "Fluxos", Icon: Workflow },
   { id: "stack", label: "Stack & DevOps", Icon: GitBranch },
+  { id: "fluxos", label: "Fluxos", Icon: Workflow },
+  { id: "arquitetura", label: "Arquitetura", Icon: Layers },
+  { id: "padroes", label: "Padrões", Icon: Boxes },
+  { id: "seguranca", label: "Segurança & Acesso", Icon: KeyRound },
 ];
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -209,7 +209,7 @@ function ArchitectureTab({ architecture }) {
       <div className={`pd-layer pd-layer--${i}`}>
         <div className="pd-layer__label">
           <strong>{layer.name}</strong>
-          <code>{layer.path}</code>
+          {layer.path && <code>{layer.path}</code>}
         </div>
         <p>{layer.desc}</p>
         {inner}
@@ -235,7 +235,7 @@ function ArchitectureTab({ architecture }) {
         <div className="pd-hex__infra">
           <div className="pd-layer__label">
             <strong>{infrastructure.name}</strong>
-            <code>{infrastructure.path}</code>
+            {infrastructure.path && <code>{infrastructure.path}</code>}
           </div>
           <p>{infrastructure.desc}</p>
           <ul className="pd-plugs">
@@ -249,28 +249,6 @@ function ArchitectureTab({ architecture }) {
         <ShieldCheck aria-hidden="true" />
         {architecture.compositionRoot}
       </p>
-
-      {architecture.facets.map((facet) => {
-        const FacetIcon = icons[facet.icon] || Layers;
-        return (
-          <section key={facet.title} className="pd-facet">
-            <h4 className="pd-subtitle pd-subtitle--icon">
-              <span className="pd-icon pd-icon--sm">
-                <FacetIcon aria-hidden="true" />
-              </span>
-              {facet.title}
-            </h4>
-            <div className="pd-facet__grid">
-              {facet.items.map((item) => (
-                <div key={item.title} className="pd-facet__item">
-                  <strong>{item.title}</strong>
-                  <p>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        );
-      })}
 
       <h4 className="pd-subtitle">Topologia em produção</h4>
       <div className="pd-topo" role="list">
@@ -347,6 +325,24 @@ function ArchitectureTab({ architecture }) {
           </div>
         </div>
       </div>
+
+      {/* Mesmo padrão visual dos cards da aba Padrões, sem numeração */}
+      {architecture.facets.map((facet) => (
+        <section key={facet.title} className="pd-facet">
+          <h4 className="pd-subtitle">
+            {facet.title}
+            <span className="pd-subtitle__count">{facet.items.length}</span>
+          </h4>
+          <div className="pd-patterns">
+            {facet.items.map((item) => (
+              <article key={item.title} className="pd-pattern">
+                <h5>{item.title}</h5>
+                <p>{item.desc}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
@@ -375,59 +371,13 @@ function SecurityTab({ security }) {
               {r.id === "admin" ? <UserCog aria-hidden="true" /> : <User aria-hidden="true" />}
             </span>
             <div>
-              <strong>
-                {r.label} <code>{r.id}</code>
-              </strong>
+              <strong>{r.label}</strong>
               <span>{r.desc}</span>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="pd-matrix-wrap">
-        <table className="pd-matrix">
-          <caption className="sr-only">Permissões concedidas a cada role</caption>
-          <thead>
-            <tr>
-              <th scope="col">Permissão</th>
-              {security.roles.map((r) => (
-                <th key={r.id} scope="col">
-                  <span className="pd-matrix__full">{r.label}</span>
-                  <span className="pd-matrix__short">
-                    {r.short}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          {security.permissions.map((group) => (
-            <tbody key={group.group}>
-              <tr className="pd-matrix__group">
-                <th scope="rowgroup" colSpan={security.roles.length + 1}>
-                  {group.group}
-                </th>
-              </tr>
-              {group.items.map((perm) => (
-                <tr key={perm.id}>
-                  <th scope="row">
-                    <code>{perm.id}</code>
-                    <span>{perm.desc}</span>
-                  </th>
-                  {security.roles.map((r) => (
-                    <td key={r.id}>
-                      {perm[r.id] ? (
-                        <Check className="pd-yes" aria-label="Permitido" />
-                      ) : (
-                        <Minus className="pd-no" aria-label="Negado" />
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          ))}
-        </table>
-      </div>
       <p className="pd-note pd-note--muted">
         <Globe aria-hidden="true" />
         {security.publicNote}
@@ -438,25 +388,12 @@ function SecurityTab({ security }) {
         ))}
       </ul>
 
-      <h4 className="pd-subtitle">Defesa em profundidade</h4>
-      <div className="pd-defense">
-        {security.layers.map((layer) => {
-          const LayerIcon = icons[layer.icon] || ShieldCheck;
-          return (
-            <div key={layer.name} className="pd-defense__layer">
-              <span className="pd-defense__name">
-                <LayerIcon aria-hidden="true" />
-                {layer.name}
-              </span>
-              <ul className="pd-list">
-                {layer.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
+      <h4 className="pd-subtitle">Outras proteções</h4>
+      <ul className="pd-list">
+        {security.protections.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -497,35 +434,15 @@ function FlowsTab({ flows }) {
   return (
     <div className="pd-flows">
       <section>
-        <h4 className="pd-subtitle">Jornada de compra, do carrinho à confirmação</h4>
-        <ol className="pd-timeline">
-          {flows.checkout.map((step) => (
-            <li key={step.title}>
-              <strong>{step.title}</strong>
-              <span>{step.desc}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section>
         <h4 className="pd-subtitle">Máquina de estados do pedido</h4>
         <div className="pd-states" aria-label="Fluxo principal de status do pedido">
           {flows.statuses.map((s, i) => (
             <div key={s.id} className="pd-states__item">
-              <span className="pd-state">
-                <code>{s.id}</code>
-                {s.label}
-              </span>
+              <span className="pd-state">{s.label}</span>
               {i < flows.statuses.length - 1 && <ArrowRight className="pd-states__arrow" aria-hidden="true" />}
             </div>
           ))}
         </div>
-        <ul className="pd-list pd-list--compact">
-          {flows.statusNotes.map((n) => (
-            <li key={n}>{n}</li>
-          ))}
-        </ul>
       </section>
 
       <section>
@@ -540,6 +457,18 @@ function FlowsTab({ flows }) {
           ))}
         </ol>
       </section>
+
+      <section>
+        <h4 className="pd-subtitle">Jornada de compra, do carrinho à confirmação</h4>
+        <ol className="pd-timeline">
+          {flows.checkout.map((step) => (
+            <li key={step.title}>
+              <strong>{step.title}</strong>
+              <span>{step.desc}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
     </div>
   );
 }
@@ -547,27 +476,34 @@ function FlowsTab({ flows }) {
 function StackTab({ stack, pipeline }) {
   return (
     <div className="pd-stack">
-      <div className="pd-stack__groups">
-        {stack.map((g) => (
-          <div key={g.group} className="pd-stack__group">
-            <h4>{g.group}</h4>
-            <ul aria-label={`${g.group}: principais`}>
-              {g.items.map((item) => (
-                <li key={item} className="pd-stack__main">
-                  {item}
-                </li>
-              ))}
-            </ul>
-            {g.extras?.length > 0 && (
-              <ul className="pd-stack__extras" aria-label={`${g.group}: complementares`}>
-                {g.extras.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
-      </div>
+      <p className="pd-lead">Tecnologias organizadas por camada, com o papel de cada grupo no sistema.</p>
+
+      <ul className="pd-stack__rows">
+        {stack.map((g) => {
+          const GroupIcon = icons[g.icon] || Layers;
+          return (
+            <li key={g.group} className="pd-stack__row">
+              <div className="pd-stack__head">
+                <span className="pd-icon pd-icon--sm">
+                  <GroupIcon aria-hidden="true" />
+                </span>
+                <div>
+                  <h4>{g.group}</h4>
+                  <p>{g.desc}</p>
+                </div>
+              </div>
+
+              <div className="pd-stack__body">
+                <ul className="pd-stack__chips" aria-label={`${g.group}: tecnologias principais`}>
+                  {g.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
 
       <h4 className="pd-subtitle">Pipeline de entrega contínua</h4>
       <ol className="pd-chain">
@@ -589,8 +525,8 @@ export default function ProjectDetails({ project, onClose }) {
   const { title, category, description, links = [], details } = project;
   const [tab, setTab] = useState(tabs[0].id);
   const panelRef = useRef(null);
+  const scrollRef = useRef(null);
   const tabsRef = useRef(null);
-  const closeRef = useRef(null);
   const titleId = `pd-title-${project.slug}`;
 
   // Trava a rolagem da página e devolve o foco ao fechar
@@ -598,7 +534,8 @@ export default function ProjectDetails({ project, onClose }) {
     const previous = document.activeElement;
     const { overflow } = document.body.style;
     document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
+    // Foca o próprio diálogo (sem contorno); o X recebe foco só pela navegação com Tab
+    panelRef.current?.focus({ preventScroll: true });
     return () => {
       document.body.style.overflow = overflow;
       previous?.focus?.({ preventScroll: true });
@@ -632,12 +569,12 @@ export default function ProjectDetails({ project, onClose }) {
 
   const selectTab = (id) => {
     setTab(id);
-    const panel = panelRef.current;
+    const area = scrollRef.current;
     const bar = tabsRef.current;
-    if (!panel || !bar) return;
+    if (!area || !bar) return;
     // Se a barra de abas estiver fixa no topo, volta ao início do conteúdo
-    const stuck = bar.getBoundingClientRect().top - panel.getBoundingClientRect().top <= 80;
-    if (stuck) panel.scrollTo({ top: bar.offsetTop - 64, behavior: "smooth" });
+    const stuck = bar.getBoundingClientRect().top - area.getBoundingClientRect().top <= 16;
+    if (stuck) area.scrollTo({ top: bar.offsetTop, behavior: "smooth" });
   };
 
   const onTabKey = (e) => {
@@ -665,6 +602,7 @@ export default function ProjectDetails({ project, onClose }) {
         ref={panelRef}
         className="pd-panel"
         role="dialog"
+        tabIndex={-1}
         aria-modal="true"
         aria-labelledby={titleId}
         initial={{ opacity: 0, y: 40, scale: 0.98 }}
@@ -678,113 +616,116 @@ export default function ProjectDetails({ project, onClose }) {
             {title}
             <span className="pd-topbar__sub">· Ficha técnica</span>
           </span>
-          <button ref={closeRef} type="button" className="pd-close" onClick={onClose} aria-label="Fechar detalhes do projeto">
+          <button type="button" className="pd-close" onClick={onClose} aria-label="Fechar detalhes do projeto">
             <X aria-hidden="true" />
           </button>
         </div>
 
-        <div className="pd-content">
-          <header className="pd-hero">
-            <div className="pd-hero__text">
-              <span className="pd-chip">{category}</span>
-              <h3 id={titleId} className="pd-hero__title">
-                {title}
-              </h3>
-              <p className="pd-hero__tagline">{details.tagline}</p>
-              <p className="pd-hero__desc">{description}</p>
+        {/* A rolagem fica nesta área interna, abaixo do cabeçalho, para a barra não escapar das bordas */}
+        <div className="pd-scroll" ref={scrollRef}>
+          <div className="pd-content">
+            <header className="pd-hero">
+              <div className="pd-hero__text">
+                <span className="pd-chip">{category}</span>
+                <h3 id={titleId} className="pd-hero__title">
+                  {title}
+                </h3>
+                <p className="pd-hero__tagline">{details.tagline}</p>
+                <p className="pd-hero__desc">{description}</p>
 
-              <div className="pd-hero__actions">
-                {links.map(({ label, url, kind }) => (
-                  <a
-                    key={url}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`btn ${kind === "live" ? "btn--primary" : "btn--ghost"}`}
-                  >
-                    {label}
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
+                <div className="pd-hero__actions">
+                  {links.map(({ label, url, kind }) => (
+                    <a
+                      key={url}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`btn ${kind === "live" ? "btn--primary" : "btn--ghost"}`}
+                    >
+                      {label}
+                      <ArrowUpRight aria-hidden="true" />
+                    </a>
+                  ))}
+                  {project.private && (
+                    <span className="pd-private">
+                      <Lock aria-hidden="true" />
+                      Repositório privado
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <dl className="pd-meta">
+                {details.meta.map((m) => (
+                  <div key={m.label}>
+                    <dt>{m.label}</dt>
+                    <dd>
+                      {m.value === "Em produção" && <span className="pd-live" aria-hidden="true" />}
+                      {m.value}
+                    </dd>
+                  </div>
                 ))}
-                {project.private && (
-                  <span className="pd-private">
-                    <Lock aria-hidden="true" />
-                    Repositório privado
-                  </span>
-                )}
+              </dl>
+            </header>
+
+            <Gallery items={details.gallery} title={title} />
+
+            <section className="pd-overview" aria-label="Visão geral">
+              <div className="pd-overview__text">
+                {details.overview.map((p) => (
+                  <p key={p.slice(0, 24)}>{p}</p>
+                ))}
+              </div>
+              <ul className="pd-metrics">
+                {details.metrics.map((m) => (
+                  <li key={m.label}>
+                    <strong>{m.value}</strong>
+                    <span>{m.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <div className="pd-tabs" ref={tabsRef}>
+              <div className="pd-tabs__list" role="tablist" aria-label="Seções da ficha técnica" onKeyDown={onTabKey}>
+                {tabs.map(({ id, label, Icon }) => (
+                  <button
+                    key={id}
+                    id={`pd-tab-${id}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={tab === id}
+                    aria-controls={`pd-panel-${id}`}
+                    tabIndex={tab === id ? 0 : -1}
+                    className="pd-tabs__tab"
+                    onClick={() => selectTab(id)}
+                  >
+                    <Icon aria-hidden="true" />
+                    {label}
+                    {tab === id && <motion.span layoutId="pd-tab-indicator" className="pd-tabs__indicator" />}
+                  </button>
+                ))}
               </div>
             </div>
 
-            <dl className="pd-meta">
-              {details.meta.map((m) => (
-                <div key={m.label}>
-                  <dt>{m.label}</dt>
-                  <dd>
-                    {m.value === "Em produção" && <span className="pd-live" aria-hidden="true" />}
-                    {m.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </header>
-
-          <Gallery items={details.gallery} title={title} />
-
-          <section className="pd-overview" aria-label="Visão geral">
-            <div className="pd-overview__text">
-              {details.overview.map((p) => (
-                <p key={p.slice(0, 24)}>{p}</p>
-              ))}
-            </div>
-            <ul className="pd-metrics">
-              {details.metrics.map((m) => (
-                <li key={m.label}>
-                  <strong>{m.value}</strong>
-                  <span>{m.label}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <div className="pd-tabs" ref={tabsRef}>
-            <div className="pd-tabs__list" role="tablist" aria-label="Seções da ficha técnica" onKeyDown={onTabKey}>
-              {tabs.map(({ id, label, Icon }) => (
-                <button
-                  key={id}
-                  id={`pd-tab-${id}`}
-                  type="button"
-                  role="tab"
-                  aria-selected={tab === id}
-                  aria-controls={`pd-panel-${id}`}
-                  tabIndex={tab === id ? 0 : -1}
-                  className="pd-tabs__tab"
-                  onClick={() => selectTab(id)}
-                >
-                  <Icon aria-hidden="true" />
-                  {label}
-                  {tab === id && <motion.span layoutId="pd-tab-indicator" className="pd-tabs__indicator" />}
-                </button>
-              ))}
-            </div>
+            <motion.div
+              key={tab}
+              id={`pd-panel-${tab}`}
+              role="tabpanel"
+              aria-labelledby={`pd-tab-${tab}`}
+              className="pd-tabpanel"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+              {tab === "areas" && <AreasTab areas={details.areas} />}
+              {tab === "arquitetura" && <ArchitectureTab architecture={details.architecture} />}
+              {tab === "seguranca" && <SecurityTab security={details.security} />}
+              {tab === "padroes" && <PatternsTab patterns={details.patterns} />}
+              {tab === "fluxos" && <FlowsTab flows={details.flows} />}
+              {tab === "stack" && <StackTab stack={details.stack} pipeline={details.pipeline} />}
+            </motion.div>
           </div>
-
-          <motion.div
-            key={tab}
-            id={`pd-panel-${tab}`}
-            role="tabpanel"
-            aria-labelledby={`pd-tab-${tab}`}
-            className="pd-tabpanel"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
-          >
-            {tab === "areas" && <AreasTab areas={details.areas} />}
-            {tab === "arquitetura" && <ArchitectureTab architecture={details.architecture} />}
-            {tab === "seguranca" && <SecurityTab security={details.security} />}
-            {tab === "padroes" && <PatternsTab patterns={details.patterns} />}
-            {tab === "fluxos" && <FlowsTab flows={details.flows} />}
-            {tab === "stack" && <StackTab stack={details.stack} pipeline={details.pipeline} />}
-          </motion.div>
         </div>
       </motion.div>
     </motion.div>,

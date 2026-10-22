@@ -801,24 +801,27 @@ export default function ProjectDetails({ project, onClose }) {
               </div>
             </div>
 
-            <motion.div
-              key={tab}
-              id={`pd-panel-${tab}`}
-              role="tabpanel"
-              aria-labelledby={`pd-tab-${tab}`}
-              className="pd-tabpanel"
-              style={{ minHeight: panelMinHeight }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.35, ease: EASE }}
-            >
-              {tab === "areas" && <AreasTab areas={details.areas} />}
-              {tab === "arquitetura" && <ArchitectureTab architecture={details.architecture} />}
-              {tab === "seguranca" && <SecurityTab security={details.security} />}
-              {tab === "padroes" && <PatternsTab patterns={details.patterns} />}
-              {tab === "fluxos" && <FlowsTab flows={details.flows} />}
-              {tab === "stack" && <StackTab stack={details.stack} pipeline={details.pipeline} />}
-            </motion.div>
+            {/* Caixa fixa que nunca sai da página: ao trocar de aba, a altura não encolhe
+                nem por um instante (no Safari/WebKit isso fazia a tela pular) */}
+            <div className="pd-tabpanels" style={{ minHeight: panelMinHeight }}>
+              <motion.div
+                key={tab}
+                id={`pd-panel-${tab}`}
+                role="tabpanel"
+                aria-labelledby={`pd-tab-${tab}`}
+                className="pd-tabpanel"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.35, ease: EASE }}
+              >
+                {tab === "areas" && <AreasTab areas={details.areas} />}
+                {tab === "arquitetura" && <ArchitectureTab architecture={details.architecture} />}
+                {tab === "seguranca" && <SecurityTab security={details.security} />}
+                {tab === "padroes" && <PatternsTab patterns={details.patterns} />}
+                {tab === "fluxos" && <FlowsTab flows={details.flows} />}
+                {tab === "stack" && <StackTab stack={details.stack} pipeline={details.pipeline} />}
+              </motion.div>
+            </div>
           </div>
         </div>
       </motion.div>

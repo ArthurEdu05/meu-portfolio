@@ -123,9 +123,16 @@ function Gallery({ items, title }) {
     return () => controls.stop();
   }, [index, width, snapTo]);
 
+  // Centraliza a miniatura ativa rolando só a faixa de miniaturas (na horizontal),
+  // sem mexer na rolagem vertical da ficha
   useEffect(() => {
-    const thumb = thumbsRef.current?.children[index];
-    thumb?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+    const strip = thumbsRef.current;
+    const thumb = strip?.children[index];
+    if (!strip || !thumb) return;
+    const stripRect = strip.getBoundingClientRect();
+    const thumbRect = thumb.getBoundingClientRect();
+    const left = strip.scrollLeft + (thumbRect.left - stripRect.left) - (strip.clientWidth - thumbRect.width) / 2;
+    strip.scrollTo({ left, behavior: "smooth" });
   }, [index]);
 
   const onDragEnd = (_, info) => {
@@ -586,6 +593,9 @@ export default function ProjectDetails({ project, onClose }) {
   const [tab, setTab] = useState(tabs[0].id);
   const panelRef = useRef(null);
   const scrollRef = useRef(null);
+  const tabsAnchorRef = useRef(null);
+  const keepTabsPinned = useRef(false);
+  const [panelMinHeight, setPanelMinHeight] = useState(0);
   const tabsRef = useRef(null);
   const titleId = `pd-title-${project.slug}`;
 
@@ -627,15 +637,37 @@ export default function ProjectDetails({ project, onClose }) {
     [onClose],
   );
 
+  // Troca de aba sem mover a tela: a faixa de abas fica exatamente onde estava.
+  // Se ela estiver presa no topo, a nova aba aparece logo abaixo dela, desde o início.
   const selectTab = (id) => {
-    setTab(id);
+    if (id === tab) return;
     const area = scrollRef.current;
     const bar = tabsRef.current;
-    if (!area || !bar) return;
-    // Se a barra de abas estiver fixa no topo, volta ao início do conteúdo
-    const stuck = bar.getBoundingClientRect().top - area.getBoundingClientRect().top <= 16;
-    if (stuck) area.scrollTo({ top: bar.offsetTop, behavior: "smooth" });
+    if (area && bar) {
+      keepTabsPinned.current = bar.getBoundingClientRect().top - area.getBoundingClientRect().top <= 1;
+    }
+    setTab(id);
   };
+
+  useLayoutEffect(() => {
+    if (!keepTabsPinned.current) return;
+    keepTabsPinned.current = false;
+    const area = scrollRef.current;
+    const anchor = tabsAnchorRef.current;
+    if (area && anchor) area.scrollTop = anchor.offsetTop;
+  }, [tab]);
+
+  // Altura mínima do conteúdo das abas: uma aba mais curta nunca força a tela a subir
+  useLayoutEffect(() => {
+    const area = scrollRef.current;
+    const bar = tabsRef.current;
+    if (!area || !bar) return undefined;
+    const update = () => setPanelMinHeight(Math.max(0, area.clientHeight - bar.offsetHeight));
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(area);
+    return () => observer.disconnect();
+  }, []);
 
   const onTabKey = (e) => {
     const i = tabs.findIndex((t) => t.id === tab);
@@ -645,7 +677,7 @@ export default function ProjectDetails({ project, onClose }) {
     if (!next) return;
     e.preventDefault();
     selectTab(next.id);
-    document.getElementById(`pd-tab-${next.id}`)?.focus();
+    document.getElementById(`pd-tab-${next.id}`)?.focus({ preventScroll: true });
   };
 
   return createPortal(
@@ -746,6 +778,7 @@ export default function ProjectDetails({ project, onClose }) {
               </ul>
             </section>
 
+            <div ref={tabsAnchorRef} aria-hidden="true" />
             <div className="pd-tabs" ref={tabsRef}>
               <div className="pd-tabs__list" role="tablist" aria-label="Seções da ficha técnica" onKeyDown={onTabKey}>
                 {tabs.map(({ id, label, Icon }) => (
@@ -774,8 +807,9 @@ export default function ProjectDetails({ project, onClose }) {
               role="tabpanel"
               aria-labelledby={`pd-tab-${tab}`}
               className="pd-tabpanel"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              style={{ minHeight: panelMinHeight }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.35, ease: EASE }}
             >
               {tab === "areas" && <AreasTab areas={details.areas} />}

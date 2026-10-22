@@ -289,23 +289,43 @@
 .pd-gallery__stage {
   position: relative;
   aspect-ratio: 16 / 10;
-  display: grid;
-  place-items: center;
   overflow: hidden;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: radial-gradient(80% 80% at 50% 0%, var(--accent-soft), transparent 70%), var(--surface-2);
 }
 
-.pd-gallery__stage img {
+/* Faixa arrastável com as imagens lado a lado */
+.pd-gallery__track {
+  display: flex;
+  height: 100%;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pd-gallery__stage.is-dragging .pd-gallery__track {
+  cursor: grabbing;
+}
+
+.pd-gallery__slide {
+  flex: 0 0 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.pd-gallery__slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 /* Capturas de celular aparecem num "aparelho" centralizado */
-.pd-gallery__stage--mobile img {
+.pd-gallery__slide--mobile img {
   width: auto;
   height: 92%;
   object-fit: contain;
@@ -316,6 +336,7 @@
 
 .pd-gallery__nav {
   position: absolute;
+  z-index: 2;
   top: 50%;
   display: grid;
   place-items: center;
@@ -1355,11 +1376,6 @@
 
   .pd-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  /* Captura desktop aparece inteira; a de celular ganha uma moldura mais alta */
-  .pd-gallery__stage--mobile {
-    aspect-ratio: 4 / 5;
   }
 
   .pd-gallery__nav {

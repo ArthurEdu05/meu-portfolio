@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { motion } from "framer-motion";
+import { animate, motion, useMotionValue } from "framer-motion";
 import {
   Activity,
   AppWindow,
@@ -86,17 +86,57 @@ const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1
 
 /* ---------------------------------------------------------------- Galeria */
 
+// Arraste mínimo (fração da largura) ou velocidade para trocar de imagem
+const SWIPE_DISTANCE = 0.18;
+const SWIPE_VELOCITY = 450;
+
 function Gallery({ items, title }) {
   const [index, setIndex] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const stageRef = useRef(null);
   const thumbsRef = useRef(null);
+  const x = useMotionValue(0);
   const current = items[index];
+  const last = items.length - 1;
 
   const go = (next) => setIndex((next + items.length) % items.length);
+
+  // Largura da moldura: a faixa de imagens anda de uma largura por vez
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return undefined;
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
+
+  const snapTo = useCallback(
+    (i) => animate(x, -i * width, { type: "spring", stiffness: 320, damping: 36 }),
+    [x, width],
+  );
+
+  // Desliza até a imagem atual (setas, miniaturas, teclado ou fim do arraste)
+  useEffect(() => {
+    if (!width) return undefined;
+    const controls = snapTo(index);
+    return () => controls.stop();
+  }, [index, width, snapTo]);
 
   useEffect(() => {
     const thumb = thumbsRef.current?.children[index];
     thumb?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
   }, [index]);
+
+  const onDragEnd = (_, info) => {
+    setDragging(false);
+    let next = index;
+    if (info.offset.x < -width * SWIPE_DISTANCE || info.velocity.x < -SWIPE_VELOCITY) next = index + 1;
+    else if (info.offset.x > width * SWIPE_DISTANCE || info.velocity.x > SWIPE_VELOCITY) next = index - 1;
+    next = Math.min(Math.max(next, 0), last);
+    if (next === index) snapTo(index);
+    else setIndex(next);
+  };
 
   return (
     <div
@@ -106,15 +146,35 @@ function Gallery({ items, title }) {
         if (e.key === "ArrowLeft") go(index - 1);
       }}
     >
-      <div className={`pd-gallery__stage pd-gallery__stage--${current.device}`}>
-        <motion.img
-          key={current.src}
-          src={current.src}
-          alt={`${title}: ${current.caption}`}
-          initial={{ opacity: 0, scale: 0.985 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, ease: EASE }}
-        />
+      <div
+        ref={stageRef}
+        className={`pd-gallery__stage${dragging ? " is-dragging" : ""}`}
+        role="region"
+        aria-roledescription="carrossel"
+        aria-label={`Imagens do projeto ${title}`}
+      >
+        {/* Faixa com todas as imagens lado a lado: arrastável com dedo ou mouse */}
+        <motion.div
+          className="pd-gallery__track"
+          style={{ x }}
+          drag="x"
+          dragConstraints={{ left: -last * width, right: 0 }}
+          dragElastic={0.15}
+          dragMomentum={false}
+          onDragStart={() => setDragging(true)}
+          onDragEnd={onDragEnd}
+        >
+          {items.map((item, i) => (
+            <div
+              key={item.src}
+              className={`pd-gallery__slide pd-gallery__slide--${item.device}`}
+              aria-hidden={i !== index}
+            >
+              <img src={item.src} alt={`${title}: ${item.caption}`} draggable={false} />
+            </div>
+          ))}
+        </motion.div>
+
         <button type="button" className="pd-gallery__nav pd-gallery__nav--prev" onClick={() => go(index - 1)} aria-label="Imagem anterior">
           <ChevronLeft aria-hidden="true" />
         </button>

@@ -454,12 +454,15 @@ html {
   pointer-events: none;
 }
 
-.card-hover:hover::before {
-  opacity: 0.6;
-}
+/* Só em aparelhos com mouse/trackpad: no toque, o hover simulado "grudava" no card */
+@media (hover: hover) and (pointer: fine) {
+  .card-hover:hover::before {
+    opacity: 0.6;
+  }
 
-.card-hover:hover {
-  box-shadow: 0 24px 48px -28px var(--accent-glow), var(--shadow);
+  .card-hover:hover {
+    box-shadow: 0 24px 48px -28px var(--accent-glow), var(--shadow);
+  }
 }
 
 /* ==========================================================================

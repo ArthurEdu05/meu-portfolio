@@ -16,10 +16,6 @@
   transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
 }
 
-.skills__card:hover {
-  border-color: rgba(91, 155, 255, 0.3);
-  transform: translateY(-4px);
-}
 
 .skills__head {
   display: flex;
@@ -75,11 +71,6 @@
     transform 0.25s var(--ease);
 }
 
-.skill:hover {
-  border-color: var(--border-strong);
-  background: var(--tint-3);
-  transform: translateY(-2px);
-}
 
 .skill__logo {
   display: grid;
@@ -100,9 +91,24 @@
   transition: transform 0.3s var(--ease);
 }
 
-.skill:hover .skill__logo img,
-.skill:hover .skill__logo svg {
-  transform: scale(1.12);
+/* Efeitos de hover só em aparelhos com mouse/trackpad. No celular, o navegador simula
+   hover onde o dedo toca; durante o zoom isso fazia blocos e ícones pularem (tremor). */
+@media (hover: hover) and (pointer: fine) {
+  .skills__card:hover {
+    border-color: rgba(91, 155, 255, 0.3);
+    transform: translateY(-4px);
+  }
+
+  .skill:hover {
+    border-color: var(--border-strong);
+    background: var(--tint-3);
+    transform: translateY(-2px);
+  }
+
+  .skill:hover .skill__logo img,
+  .skill:hover .skill__logo svg {
+    transform: scale(1.12);
+  }
 }
 
 .skill__name {
@@ -166,10 +172,5 @@
   .skills__icon {
     width: 40px;
     height: 40px;
-  }
-
-
-  .skills__card:hover {
-    transform: none;
   }
 }

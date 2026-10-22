@@ -494,10 +494,17 @@
   -webkit-backdrop-filter: blur(14px);
 }
 
+/* Faixa de abas: rola só na horizontal. Sem overflow-y: hidden, o navegador também
+   permitiria rolagem vertical (o indicador passava 1px da faixa). A margem negativa
+   mantém o indicador sobre a borda inferior, como antes. */
 .pd-tabs__list {
   display: flex;
   gap: 0.25rem;
   overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: -1px;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
 }
 
@@ -541,7 +548,7 @@
   position: absolute;
   left: 0.6rem;
   right: 0.6rem;
-  bottom: -1px;
+  bottom: 0;
   height: 2px;
   border-radius: 2px;
   background: var(--accent);

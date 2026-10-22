@@ -25,8 +25,8 @@ export const profile = {
 export const navItems = [
   { id: "hero", label: "Início" },
   { id: "about", label: "Sobre" },
-  { id: "skills", label: "Habilidades" },
   { id: "projects", label: "Projetos" },
+  { id: "skills", label: "Habilidades" },
   { id: "contact", label: "Contato" },
 ];
 

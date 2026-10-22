@@ -207,11 +207,11 @@ export default function Projects() {
   const [active, setActive] = useState(null);
 
   return (
-    <section className="section section--alt projects" id="projects" aria-labelledby="projects-title">
+    <section className="section projects" id="projects" aria-labelledby="projects-title">
       <div className="container">
         <SectionHeader
           id="projects-title"
-          eyebrow="03 · Projetos"
+          eyebrow="02 · Projetos"
           title="Projetos"
           subtitle="Projetos onde transformo ideias e necessidades em soluções que geram valor. Abra cada projeto para conhecer a arquitetura, as tecnologias e as decisões técnicas por trás dele."
         />

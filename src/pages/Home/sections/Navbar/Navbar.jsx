@@ -9,8 +9,8 @@ import "./Navbar.css"
 const items = [
     { name: "Início", url: "#hero", icon: Home },
     { name: "Sobre", url: "#about", icon: User },
-    { name: "Habilidades", url: "#skills", icon: Wrench },
     { name: "Projetos", url: "#projects", icon: FolderGit },
+    { name: "Habilidades", url: "#skills", icon: Wrench },
     { name: "Contato", url: "#contact", icon: Mail },
 ];
 

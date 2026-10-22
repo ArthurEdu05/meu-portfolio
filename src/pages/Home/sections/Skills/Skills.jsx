@@ -154,11 +154,11 @@ export default function Skills() {
   const fitRef = useFitSkillNames();
 
   return (
-    <section className="section skills" id="skills" aria-labelledby="skills-title">
+    <section className="section section--alt skills" id="skills" aria-labelledby="skills-title">
       <div className="container">
         <SectionHeader
           id="skills-title"
-          eyebrow="02 · Habilidades"
+          eyebrow="03 · Habilidades"
           title="Stack e competências"
           subtitle="Tecnologias que uso no dia a dia para desenvolver soluções completas."
         />

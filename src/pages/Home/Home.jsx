@@ -17,8 +17,8 @@ function Home() {
       <main id="main">
         <Hero />
         <About />
-        <Skills />
         <Projects />
+        <Skills />
         <Contact />
       </main>
       <Footer />

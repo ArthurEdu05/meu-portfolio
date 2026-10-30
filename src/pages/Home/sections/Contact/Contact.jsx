@@ -102,6 +102,37 @@ const channels = [
   },
 ];
 
+// Ao enviar, o avião "decola" antes do texto "Enviando…" entrar
+const submitLabel = {
+  enter: { opacity: 0, y: 12 },
+  rest: { opacity: 1, y: 0, transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] } },
+  launch: { opacity: 0, transition: { duration: 0.2, delay: 0.12 } },
+};
+
+const submitPlane = {
+  enter: { x: 0, y: 0 },
+  rest: { x: 0, y: 0, rotate: 0, opacity: 1 },
+  launch: {
+    x: 28,
+    y: -22,
+    rotate: -12,
+    opacity: 0,
+    transition: { duration: 0.32, ease: [0.55, 0, 0.75, 0.2] },
+  },
+};
+
+// Barra que esvazia até a notificação sumir
+function FeedbackTimer({ duration, onEnd }) {
+  return (
+    <span
+      className="form__feedback-timer"
+      style={{ "--duration": `${duration}s` }}
+      onAnimationEnd={onEnd}
+      aria-hidden="true"
+    />
+  );
+}
+
 function Field({ id, label, error, children }) {
   return (
     <div className={`field${error ? " has-error" : ""}`}>
@@ -140,6 +171,7 @@ export default function Contact() {
     setValues((v) => ({ ...v, [e.target.name]: e.target.value }));
     if (status === "success" || status === "error") setStatus("idle");
   };
+  const dismissFeedback = () => setStatus("idle");
   const onBlur = (e) => setTouched((t) => ({ ...t, [e.target.name]: true }));
 
   const onSubmit = async (e) => {
@@ -258,18 +290,40 @@ export default function Contact() {
                 />
               </Field>
 
-              <button type="submit" className="btn btn--primary form__submit" disabled={status === "sending"}>
-                {status === "sending" ? (
-                  <>
-                    <Loader2 className="spin" aria-hidden="true" />
-                    Enviando…
-                  </>
-                ) : (
-                  <>
-                    Enviar mensagem
-                    <Send aria-hidden="true" />
-                  </>
-                )}
+              <button
+                type="submit"
+                className={`btn btn--primary form__submit${status === "sending" ? " is-sending" : ""}`}
+                disabled={status === "sending"}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  {status === "sending" ? (
+                    <motion.span
+                      key="sending"
+                      className="form__submit-label"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <Loader2 className="spin" aria-hidden="true" />
+                      Enviando…
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="idle"
+                      className="form__submit-label"
+                      variants={submitLabel}
+                      initial="enter"
+                      animate="rest"
+                      exit="launch"
+                    >
+                      Enviar mensagem
+                      <motion.span className="form__submit-plane" variants={submitPlane}>
+                        <Send aria-hidden="true" />
+                      </motion.span>
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </button>
 
               <div aria-live="polite" role="status">
@@ -278,27 +332,42 @@ export default function Contact() {
                     <motion.p
                       key="ok"
                       className="form__feedback form__feedback--success"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
+                      initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -4, transition: { duration: 0.18 } }}
+                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
                     >
-                      <CheckCircle2 aria-hidden="true" />
+                      <motion.span
+                        className="form__feedback-icon"
+                        initial={{ scale: 0, rotate: -45 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ type: "spring", stiffness: 500, damping: 16, delay: 0.12 }}
+                      >
+                        <CheckCircle2 aria-hidden="true" />
+                      </motion.span>
                       Mensagem enviada com sucesso! Retornarei o contato em breve.
+                      <FeedbackTimer duration={5} onEnd={dismissFeedback} />
                     </motion.p>
                   )}
                   {status === "error" && (
                     <motion.p
                       key="err"
                       className="form__feedback form__feedback--error"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0, x: [0, -6, 6, -4, 4, 0] }}
+                      exit={{ opacity: 0, y: -4, transition: { duration: 0.18 } }}
+                      transition={{
+                        opacity: { duration: 0.2 },
+                        y: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
+                        x: { duration: 0.45, delay: 0.1 },
+                      }}
                     >
                       <AlertCircle aria-hidden="true" />
                       <span>
                         Não foi possível enviar agora. Tente novamente ou escreva direto para{" "}
                         <a href={`mailto:${profile.email}`}>{profile.email}</a>.
                       </span>
+                      <FeedbackTimer duration={8} onEnd={dismissFeedback} />
                     </motion.p>
                   )}
                 </AnimatePresence>

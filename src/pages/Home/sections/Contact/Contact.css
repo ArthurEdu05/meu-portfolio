@@ -252,6 +252,39 @@
 .form__submit {
   align-self: flex-start;
   min-width: 200px;
+  overflow: hidden;
+}
+
+.form__submit-label,
+.form__submit-plane {
+  display: inline-flex;
+  align-items: center;
+}
+
+.form__submit-label {
+  gap: inherit;
+}
+
+
+.form__submit.is-sending::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  animation: submit-shimmer 1.3s var(--ease) infinite;
+  pointer-events: none;
+}
+
+@keyframes submit-shimmer {
+  to {
+    transform: translateX(100%);
+  }
 }
 
 .spin {
@@ -265,6 +298,8 @@
 }
 
 .form__feedback {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
@@ -279,6 +314,39 @@
   height: 18px;
   flex-shrink: 0;
   margin-top: 1px;
+}
+
+.form__feedback-timer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.55;
+  transform-origin: left;
+  animation: feedback-timer var(--duration, 5s) linear forwards;
+  pointer-events: none;
+}
+
+@keyframes feedback-timer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form__feedback-timer {
+    animation-duration: var(--duration, 5s) !important;
+  }
+}
+
+.form__feedback-icon {
+  display: inline-flex;
+  flex-shrink: 0;
 }
 
 .form__feedback--success {
@@ -301,7 +369,6 @@
 }
 
 @media (max-width: 900px) {
-  /* minmax(0, ...) impede que o e-mail longo alargue a coluna além da tela */
   .contact__grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -318,9 +385,6 @@
     height: 40px;
   }
 
-  /* E-mail sempre numa linha: a fonte acompanha a largura da tela.
-     Espaço livre ≈ 100vw − (margens, padding, ícone, gaps e botão ≈ 172px);
-     o endereço ocupa ≈ 13,2em. */
   .channel__value--email {
     font-size: min(0.97rem, calc((100vw - 172px) / 13.2));
     white-space: nowrap;
@@ -328,7 +392,6 @@
     text-overflow: clip;
   }
 
-  /* Botão de copiar só com ícone no celular (nome continua no aria-label e no title) */
   .channel__copy {
     justify-content: center;
     flex-shrink: 0;
@@ -353,7 +416,6 @@
     white-space: nowrap;
   }
 
-  /* 16px evita o zoom automático do iOS ao tocar nos campos */
   .field input,
   .field textarea {
     font-size: 16px;

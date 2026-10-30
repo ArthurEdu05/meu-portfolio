@@ -236,7 +236,6 @@
   transform: translateX(4px);
 }
 
-/* Cabeçalho padrão: informações à esquerda, data (e status) fixos à direita */
 .timeline__card-head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

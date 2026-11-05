@@ -134,18 +134,6 @@ export const amazonasBerry = {
       // Aprofundamento por tema, exibido em blocos na aba Arquitetura
       facets: [
         {
-          icon: "frontend",
-          title: "Frontend",
-          items: [
-            { title: "SSR com TanStack Start", desc: "Páginas renderizadas no servidor (Nitro) e hidratadas no navegador, com roteamento por arquivos e rotas tipadas pelo TanStack Router." },
-            { title: "Estado do servidor × estado local", desc: "TanStack Query cuida dos dados da API (com staleTime no catálogo); o carrinho é um React Context salvo no localStorage com uma chave por usuário." },
-            { title: "Cliente HTTP central", desc: "Injeta o token do Clerk em cada chamada, aplica timeout, lança erros tipados (ex.: AuthenticationRequiredError) e alimenta um overlay global de carregamento." },
-            { title: "Formulários validados", desc: "React Hook Form + Zod no checkout e no perfil, com busca de CEP no ViaCEP (com cache em memória)." },
-            { title: "Design system acessível", desc: "Componentes shadcn/ui sobre Radix UI, estilizados com Tailwind CSS 4 e animados com Motion." },
-            { title: "SDK sob demanda", desc: "O SDK do Mercado Pago só é carregado na página de pagamento, o que mantém o resto do site leve e a CSP mais restrita." },
-          ],
-        },
-        {
           icon: "database",
           title: "Dados e consistência",
           items: [
@@ -154,7 +142,7 @@ export const amazonasBerry = {
             { title: "Preço sempre do servidor", desc: "O backend recalcula preços e grava snapshots de nome, preço e quantidade no pedido. Valores enviados pelo navegador são ignorados." },
             { title: "Reserva de estoque e cupom", desc: "Reservados na criação do pedido e devolvidos uma única vez quando ele expira (devolução idempotente)." },
             { title: "Retry só onde é seguro", desc: "Leituras repetem com backoff exponencial + jitter em erros transitórios do banco (P1001, P1002, P1017, P2024). Escritas de pagamento, estoque e status nunca têm retry automático." },
-            { title: "Índices e pool sob medida", desc: "Índices compostos desenhados por consulta (status + data + id, tipo + status + disponibilidade) e pool de conexões limitado por processo: 5 na API e 2 por worker." },
+            { title: "Índices e pool sob medida", desc: "Índices compostos desenhados por consulta e pool de conexões limitado por processo: 5 na API e 2 por worker." },
             { title: "Migrations versionadas", desc: "14 migrations aplicadas com prisma migrate deploy no pipeline. db push nunca é usado em produção." },
           ],
         },
@@ -167,7 +155,7 @@ export const amazonasBerry = {
             { title: "Retentativas controladas", desc: "BullMQ com jobId derivado do evento/tentativa (sem jobs duplicados) e backoff exponencial. Depois do limite, o evento vira FAILED e o admin pode reprocessá-lo." },
             { title: "Filas isoladas (bulkhead)", desc: "Pagamentos, notificações, cancelamentos e estornos rodam em filas, concorrências e containers separados." },
             { title: "Notificação sem duplicidade", desc: "Mensagens de WhatsApp seguem a ordem de cada pedido; a tabela OrderNotificationDelivery impede reenvio quando só a conclusão do evento precisa ser repetida." },
-            { title: "Redis não é a fonte da verdade", desc: "Redis dedicado com AOF e noeviction. Se cair, os eventos continuam PENDING no MySQL e são publicados depois." },
+            { title: "Redis não é a fonte da verdade", desc: "Se cair, os eventos continuam PENDING no MySQL e são publicados depois." },
           ],
         },
         {
@@ -187,8 +175,20 @@ export const amazonasBerry = {
             { title: "Logs estruturados", desc: "Logs em JSON (timestamp, nível, evento). Erros são reduzidos a nome:código, sem payloads nem dados pessoais." },
             { title: "Alertas operacionais", desc: "Monitor periódico que alerta para banco ou BullMQ indisponíveis, eventos FAILED, falhas de pagamento, estorno ou WhatsApp e jobs com erro." },
             { title: "Liveness × readiness", desc: "/health indica que o processo está vivo; /ready só responde OK com o banco disponível. Cada worker tem seu próprio healthcheck HTTP." },
-            { title: "Graceful shutdown", desc: "Em SIGTERM/SIGINT a API para de aceitar conexões e fecha filas, Redis e Prisma antes de sair, sem cortar requisições no meio." },
+            { title: "Graceful shutdown", desc: "A API para de aceitar conexões e fecha filas, Redis e Prisma antes de sair, sem cortar requisições no meio." },
             { title: "Containers enxutos", desc: "Dockerfile multi-stage, dependências de desenvolvimento removidas e execução com usuário não-root." },
+          ],
+        },
+        {
+          icon: "frontend",
+          title: "Frontend",
+          items: [
+            { title: "SSR com TanStack Start", desc: "Páginas renderizadas no servidor (Nitro) e hidratadas no navegador, com roteamento por arquivos e rotas tipadas pelo TanStack Router." },
+            { title: "Estado do servidor × estado local", desc: "TanStack Query cuida dos dados da API (com staleTime no catálogo); o carrinho é um React Context salvo no localStorage com uma chave por usuário." },
+            { title: "Cliente HTTP central", desc: "Injeta o token do Clerk em cada chamada, aplica timeout, lança erros tipados (ex.: AuthenticationRequiredError) e alimenta um overlay global de carregamento." },
+            { title: "Formulários validados", desc: "React Hook Form + Zod no checkout e no perfil, com busca de CEP no ViaCEP (com cache em memória)." },
+            { title: "Design system acessível", desc: "Componentes shadcn/ui sobre Radix UI, estilizados com Tailwind CSS 4 e animados com Motion." },
+            { title: "SDK sob demanda", desc: "O SDK do Mercado Pago só é carregado na página de pagamento, o que mantém o resto do site leve e a CSP mais restrita." },
           ],
         },
       ],
@@ -216,7 +216,7 @@ export const amazonasBerry = {
 
     security: {
       intro:
-        "Identidade fica com o Clerk; autorização fica no backend. O frontend usa a role só para decidir o que mostrar (por exemplo, o link do painel). Quem decide o acesso é sempre o servidor, rota por rota.",
+        "Identidade fica com o Clerk; autorização fica no backend. O frontend usa a role só para decidir o que mostrar. Quem decide o acesso é sempre o servidor, rota por rota.",
       authFlow: [
         { title: "Login", desc: "Telas próprias com componentes do Clerk: Google ou e-mail e senha." },
         { title: "Token Bearer", desc: "O cliente HTTP anexa o JWT da sessão em cada chamada à API." },
@@ -238,12 +238,13 @@ export const amazonasBerry = {
         "Uploads do painel são autorizados antes do parser de corpo grande: um usuário sem permissão não consegue enviar uma imagem pesada para o servidor.",
         "Toda mutação administrativa grava ator, ação e recurso no AuditLog, na mesma transação da alteração.",
       ],
-      protections: [
-        "Site e API funcionam só com HTTPS; banco, Redis e workers ficam fora do alcance da internet",
-        "A API só aceita chamadas do próprio site e limita a quantidade de requisições por visitante",
-        "Um pagamento só é confirmado depois que o backend valida a notificação e consulta o Mercado Pago",
-        "Dados pessoais ficam fora dos logs",
-        "Uma configuração insegura impede o sistema de subir em produção",
+      patterns: [
+        { name: "RBAC por permissão", what: "Cada ação exige uma permissão específica, em vez de checar apenas o tipo de usuário.", why: "Novas roles não exigem mudar rotas." },
+        { name: "Ownership", what: "Ações do cliente sempre verificam se o dado pertence a quem está pedindo.", why: "Um cliente nunca acessa pedidos ou dados de outro." },
+        { name: "Menor privilégio", what: "Usuário sem role explícita vira customer.", why: "Um erro de cadastro nunca concede acesso administrativo." },
+        { name: "Fail-closed", what: "Webhook com assinatura, segredo ou timestamp inválido é sempre rejeitado, e o pagamento só é confirmado depois de consultar o Mercado Pago.", why: "Ninguém confirma pagamento forjando uma notificação." },
+        { name: "Fail-fast", what: "Configuração inválida ou insegura impede o processo de subir.", why: "Erros de ambiente aparecem no deploy, não com cliente pagando." },
+        { name: "Defesa em profundidade", what: "Controles independentes em cada camada: só HTTPS, chamadas aceitas apenas do próprio site, limite de requisições por visitante, banco, Redis e workers fora do alcance da internet e dados pessoais fora dos logs.", why: "Uma única falha não expõe o sistema." },
       ],
     },
 
@@ -260,15 +261,6 @@ export const amazonasBerry = {
         ],
       },
       {
-        group: "DDD tático",
-        items: [
-          { name: "Entidades", what: "Entidades concentram suas próprias regras.", why: "Um cupom sabe dizer se está ativo, expirado ou esgotado." },
-          { name: "Value Objects", what: "Valores do negócio são representados por objetos imutáveis, validados no momento da criação.", why: "Valores inválidos não circulam pelo sistema." },
-          { name: "Eventos de domínio", what: "Cada acontecimento importante do negócio vira um evento com nome próprio, que outras partes do sistema podem acompanhar.", why: "O vocabulário do código é o mesmo da operação da loja." },
-          { name: "Repositórios e read models", what: "Interfaces de escrita no domínio e leitores dedicados para cada consulta.", why: "Cada tela busca só o que precisa." },
-        ],
-      },
-      {
         group: "Padrões de projeto (GoF)",
         items: [
           { name: "Adapter", what: "Cada serviço externo (Mercado Pago, Clerk, Mapbox, WhatsApp, Redis) implementa uma porta da aplicação.", why: "Trocar ou simular um provedor não afeta o resto do código." },
@@ -276,6 +268,15 @@ export const amazonasBerry = {
           { name: "Factory", what: "Um ponto central decide qual provedor de mensagens usar a partir da configuração.", why: "O sistema troca de provedor de WhatsApp sem mudar o restante do código." },
           { name: "Strategy", what: "O transporte da outbox é intercambiável: polling no banco ou BullMQ.", why: "Desenvolvimento local simples, produção com filas." },
           { name: "State (máquina de estados)", what: "As transições válidas de status do pedido ficam no domínio.", why: "Impede marcar como entregue um pedido que não foi pago." },
+        ],
+      },
+      {
+        group: "DDD tático",
+        items: [
+          { name: "Entidades", what: "Entidades concentram suas próprias regras.", why: "Um cupom sabe dizer se está ativo, expirado ou esgotado." },
+          { name: "Value Objects", what: "Valores do negócio são representados por objetos imutáveis, validados no momento da criação.", why: "Valores inválidos não circulam pelo sistema." },
+          { name: "Eventos de domínio", what: "Cada acontecimento importante do negócio vira um evento com nome próprio, que outras partes do sistema podem acompanhar.", why: "O vocabulário do código é o mesmo da operação da loja." },
+          { name: "Repositórios e read models", what: "Interfaces de escrita no domínio e leitores dedicados para cada consulta.", why: "Cada tela busca só o que precisa." },
         ],
       },
       {
@@ -289,19 +290,7 @@ export const amazonasBerry = {
           { name: "Compensação", what: "Uma falha definitiva no provedor desfaz o pedido pendente e devolve o cupom.", why: "Nada fica reservado por um pedido que nunca poderá ser pago." },
           { name: "Tombstone e reconciliação", what: "Pedidos não pagos no prazo são marcados como expirados em vez de serem apagados.", why: "Um Pix pago com atraso reativa o pedido em vez de virar venda perdida." },
           { name: "Retry com backoff e jitter", what: "Nova tentativa exponencial com variação aleatória, só em operações idempotentes.", why: "Oscilações rápidas do banco não viram erro para o usuário." },
-          { name: "Single-flight + stale-while-revalidate", what: "Cache servido mesmo velho enquanto uma única atualização roda.", why: "O catálogo aguenta picos e quedas do banco." },
           { name: "Graceful degradation", what: "Rate limit cai para memória e o cache tolera falha do Redis.", why: "Uma dependência fora do ar não derruba a loja." },
-        ],
-      },
-      {
-        group: "Segurança",
-        items: [
-          { name: "RBAC por permissão", what: "Cada ação exige uma permissão específica, em vez de checar apenas o tipo de usuário.", why: "Novas roles não exigem mudar rotas." },
-          { name: "Ownership", what: "Ações do cliente sempre verificam se o dado pertence a quem está pedindo.", why: "Um cliente nunca acessa pedidos ou dados de outro." },
-          { name: "Menor privilégio", what: "Usuário sem role explícita vira customer.", why: "Um erro de cadastro nunca concede acesso administrativo." },
-          { name: "Fail-closed", what: "Webhook com assinatura, segredo ou timestamp inválido é sempre rejeitado.", why: "Ninguém confirma pagamento forjando uma notificação." },
-          { name: "Fail-fast", what: "Configuração inválida impede o processo de subir.", why: "Erros de ambiente aparecem no deploy, não com cliente pagando." },
-          { name: "Defesa em profundidade", what: "Controles independentes na borda, no HTTP, na aplicação e nos dados.", why: "Uma única falha não expõe o sistema." },
         ],
       },
     ],

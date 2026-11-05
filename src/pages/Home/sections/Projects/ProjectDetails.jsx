@@ -270,6 +270,7 @@ function AreasTab({ areas }) {
 
 function ArchitectureTab({ architecture }) {
   const { layers, infrastructure, runtime } = architecture;
+  let counter = 0;
 
   // Camadas aninhadas: a de fora depende da de dentro, nunca o contrário
   const nested = layers.reduceRight(
@@ -394,7 +395,7 @@ function ArchitectureTab({ architecture }) {
         </div>
       </div>
 
-      {/* Mesmo padrão visual dos cards da aba Padrões, sem numeração */}
+      {/* Mesmo padrão visual e numeração dos cards da aba Padrões */}
       {architecture.facets.map((facet) => (
         <section key={facet.title} className="pd-facet">
           <h4 className="pd-subtitle">
@@ -402,12 +403,16 @@ function ArchitectureTab({ architecture }) {
             <span className="pd-subtitle__count">{facet.items.length}</span>
           </h4>
           <div className="pd-patterns">
-            {facet.items.map((item) => (
-              <article key={item.title} className="pd-pattern">
-                <h5>{item.title}</h5>
-                <p>{item.desc}</p>
-              </article>
-            ))}
+            {facet.items.map((item) => {
+              counter += 1;
+              return (
+                <article key={item.title} className="pd-pattern">
+                  <span className="pd-pattern__index">{String(counter).padStart(2, "0")}</span>
+                  <h5>{item.title}</h5>
+                  <p>{item.desc}</p>
+                </article>
+              );
+            })}
           </div>
         </section>
       ))}
@@ -456,12 +461,23 @@ function SecurityTab({ security }) {
         ))}
       </ul>
 
-      <h4 className="pd-subtitle">Outras proteções</h4>
-      <ul className="pd-list">
-        {security.protections.map((item) => (
-          <li key={item}>{item}</li>
+      <h4 className="pd-subtitle">
+        Padrões de segurança
+        <span className="pd-subtitle__count">{security.patterns.length}</span>
+      </h4>
+      <div className="pd-patterns">
+        {security.patterns.map((p, i) => (
+          <article key={p.name} className="pd-pattern">
+            <span className="pd-pattern__index">{String(i + 1).padStart(2, "0")}</span>
+            <h5>{p.name}</h5>
+            <p>{p.what}</p>
+            <p className="pd-pattern__why">
+              <span>Na prática</span>
+              {p.why}
+            </p>
+          </article>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

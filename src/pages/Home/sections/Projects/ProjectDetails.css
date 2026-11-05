@@ -1130,12 +1130,12 @@
 .pd-chain li:not(:last-child)::after {
   content: "";
   position: absolute;
-  right: -0.45rem;
+  right: -0.6rem;
   top: 50%;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid var(--accent);
-  border-right: 2px solid var(--accent);
+  width: 12px;
+  height: 12px;
+  border-top: 2.5px solid var(--accent);
+  border-right: 2.5px solid var(--accent);
   transform: translateY(-50%) rotate(45deg);
   z-index: 1;
 }
@@ -1349,7 +1349,7 @@
     right: auto;
     left: 1.5rem;
     top: auto;
-    bottom: -0.45rem;
+    bottom: -0.6rem;
     transform: rotate(135deg);
   }
 }

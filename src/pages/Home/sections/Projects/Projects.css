@@ -165,20 +165,52 @@
 
 .project__links {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
   margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
   container-type: inline-size;
 }
 
-/* Ações à esquerda e status à direita; se a linha não comportar, o selo desce alinhado à esquerda */
-@container (min-width: 410px) {
-  .project__links .private-repo {
-    margin-left: auto;
+/* Sempre em uma linha: abaixo de 410px de largura, tudo diminui junto com o card (cqw) */
+.project__links > :not(:last-child) {
+  margin-right: clamp(2px, calc(2.94cqw - 4px), 0.5rem);
+}
+
+/* Ações à esquerda e status à direita */
+.project__links .private-repo {
+  margin-left: auto;
+}
+
+/* No celular, a sobra da linha é dividida por igual entre os três */
+@media (max-width: 560px) {
+  .project__links {
+    justify-content: space-between;
   }
+
+  .project__links .private-repo {
+    margin-left: 0;
+  }
+}
+
+.project__links .project__link,
+.project__links .project__details,
+.project__links .private-repo__badge {
+  gap: clamp(2px, calc(2.94cqw - 4px), 0.5rem);
+  padding: 0 clamp(3px, calc(6.47cqw - 10.5px), 1rem);
+  font-size: clamp(0.5625rem, calc(2.35cqw + 4.35px), 0.875rem);
+  white-space: nowrap;
+}
+
+.project__links .project__link svg,
+.project__links .project__details svg {
+  width: clamp(10px, calc(2.35cqw + 5.35px), 15px);
+  height: clamp(10px, calc(2.35cqw + 5.35px), 15px);
+}
+
+.project__links .private-repo__badge svg {
+  width: clamp(10px, calc(3.53cqw + 3.5px), 18px);
+  height: clamp(10px, calc(3.53cqw + 3.5px), 18px);
 }
 
 .project__link {

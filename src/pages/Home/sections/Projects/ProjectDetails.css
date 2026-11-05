@@ -204,7 +204,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem 1.25rem;
+  gap: 0.75rem;
   margin-top: 1.5rem;
 }
 
@@ -212,17 +212,17 @@
   transform: translate(2px, -2px);
 }
 
-.pd-private {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.875rem;
-  color: var(--text-subtle);
+/* Selo com as mesmas medidas do botão ao lado; a diferença entre eles fica só na cor */
+.pd-hero__actions .private-repo__badge {
+  gap: 0.55rem;
+  min-height: 48px;
+  padding: 0 1.4rem;
+  font-size: 0.95rem;
 }
 
-.pd-private svg {
-  width: 15px;
-  height: 15px;
+.pd-hero__actions .private-repo__badge svg {
+  width: 20px;
+  height: 20px;
 }
 
 .pd-meta {

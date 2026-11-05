@@ -1,0 +1,99 @@
+.private-repo {
+  position: relative;
+  display: inline-flex;
+}
+
+.private-repo__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--tint-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--text-muted);
+  cursor: help;
+  transition: border-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.private-repo__badge svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Só o ícone de info leva a cor de destaque: indica que há mais informação aqui */
+.private-repo__badge svg:last-child {
+  color: var(--accent);
+}
+
+.private-repo__badge:hover,
+.private-repo__badge.is-active {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+.private-repo__tip {
+  --tip-shift: 0px;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: min(280px, var(--tip-max, 280px));
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  color: var(--text-muted);
+  cursor: default;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(calc(-50% + var(--tip-shift)), 4px);
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease), visibility 0.18s;
+}
+
+.private-repo__tip.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(calc(-50% + var(--tip-shift)), 0);
+}
+
+.private-repo__tip strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Seta do balão: continua apontando para o selo mesmo quando o balão desliza */
+.private-repo__tip::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - var(--tip-shift));
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* Ponte invisível: o balão não fecha enquanto o mouse vai do selo até ele */
+.private-repo__tip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 10px;
+}

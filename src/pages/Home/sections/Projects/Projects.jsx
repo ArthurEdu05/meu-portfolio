@@ -7,13 +7,13 @@ import {
   Code2,
   FolderGit2,
   HeartHandshake,
-  Lock,
   Maximize2,
   Plus,
   ShoppingBag,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import SectionHeader from "../../../../components/SectionHeader";
+import PrivateRepoBadge from "../../../../components/PrivateRepoBadge";
 import { Reveal, RevealGroup, RevealItem } from "../../../../components/Reveal";
 import { profile, projects, upcomingProjects } from "../../../../data/profile";
 import ProjectDetails from "./ProjectDetails";
@@ -106,12 +106,7 @@ function ProjectCard({ title, category, summary, description, highlights = [], t
               {kind === "live" && <ArrowUpRight aria-hidden="true" />}
             </a>
           ))}
-          {isPrivate && (
-            <span className="project__private">
-              <Lock aria-hidden="true" />
-              Código privado
-            </span>
-          )}
+          {isPrivate && <PrivateRepoBadge label="Privado" />}
         </div>
       </div>
     </RevealItem>

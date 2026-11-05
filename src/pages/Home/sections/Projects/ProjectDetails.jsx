@@ -41,6 +41,7 @@ import {
   Palette,
   Plug,
 } from "lucide-react";
+import PrivateRepoBadge from "../../../../components/PrivateRepoBadge";
 import "./ProjectDetails.css";
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -738,12 +739,7 @@ export default function ProjectDetails({ project, onClose }) {
                       <ArrowUpRight aria-hidden="true" />
                     </a>
                   ))}
-                  {project.private && (
-                    <span className="pd-private">
-                      <Lock aria-hidden="true" />
-                      Repositório privado
-                    </span>
-                  )}
+                  {project.private && <PrivateRepoBadge />}
                 </div>
               </div>
 

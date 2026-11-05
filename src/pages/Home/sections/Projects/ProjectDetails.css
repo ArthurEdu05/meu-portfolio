@@ -924,8 +924,10 @@
   color: var(--text-muted);
 }
 
+/* Porta de entrada: centralizada sobre a seta, de onde o fluxo se divide entre Frontend e API */
 .pd-node--edge {
-  max-width: 340px;
+  justify-self: center;
+  width: min(100%, 340px);
 }
 
 .pd-node--data > svg {

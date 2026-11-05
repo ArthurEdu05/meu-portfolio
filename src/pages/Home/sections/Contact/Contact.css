@@ -291,6 +291,13 @@
   animation: spin 0.9s linear infinite;
 }
 
+/* O movimento de hover dos ícones de botão não pode competir com o giro */
+.form__submit svg.spin,
+.form__submit:hover svg.spin {
+  transform: none;
+  transition: none;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

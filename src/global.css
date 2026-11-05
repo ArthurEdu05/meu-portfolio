@@ -491,7 +491,7 @@ html {
 
   /* Sem mouse, o hover "gruda" no elemento tocado e o deixa deslocado. As cores continuam */
   .btn:hover,
-  .btn--primary:hover svg,
+  .btn--primary:hover svg:not(.spin),
   .btn--ghost:hover svg,
   .icon-btn:hover,
   .timeline__card:hover,

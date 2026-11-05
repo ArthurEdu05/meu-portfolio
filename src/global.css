@@ -481,6 +481,59 @@ html {
   }
 }
 
+@media (hover: none) {
+  /* Seção fora da tela não mantém animações decorativas rodando */
+  .is-offscreen *,
+  .is-offscreen *::before,
+  .is-offscreen *::after {
+    animation: none !important;
+  }
+
+  /* Sem mouse, o hover "gruda" no elemento tocado e o deixa deslocado. As cores continuam */
+  .btn:hover,
+  .btn--primary:hover svg,
+  .btn--ghost:hover svg,
+  .icon-btn:hover,
+  .timeline__card:hover,
+  .channel:hover .channel__icon,
+  .channel:hover .channel__arrow,
+  .project:hover,
+  .project:hover .project__cover img,
+  .project:hover .project__cover-icon,
+  .project:hover .project__cover-brand img,
+  .project__link:hover svg:last-child,
+  .project__details:hover svg,
+  .upcoming:hover,
+  .upcoming--cta:hover .upcoming__cta-icon,
+  .soon__card:hover,
+  .soon__card:hover .soon__icon,
+  .skills__card:hover,
+  .skill:hover,
+  .skill:hover .skill__logo img,
+  .skill:hover .skill__logo svg {
+    transform: none !important;
+  }
+
+  /* Stacks não são clicáveis: o toque não muda nada, nem no bloco nem no card em volta */
+  .skill {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .skill:hover {
+    border-color: var(--border) !important;
+    background: var(--tint-1) !important;
+  }
+
+  .skills__card:hover {
+    border-color: var(--border) !important;
+    box-shadow: var(--shadow) !important;
+  }
+
+  .skills__card:hover::before {
+    opacity: 0 !important;
+  }
+}
+
 /* ==========================================================================
    Acessibilidade de movimento
    ========================================================================== */

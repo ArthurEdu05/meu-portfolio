@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   motion,
+  useInView,
   useMotionValueEvent,
   useScroll,
   useSpring,
@@ -48,6 +49,7 @@ function Journey({ groups }) {
   const ref = useRef(null);
   const nodesRef = useRef([]);
   const [active, setActive] = useState(() => new Set());
+  const inView = useInView(ref);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 60%", "end 60%"] });
   const progress = useSpring(scrollYProgress, { stiffness: 180, damping: 32, mass: 0.4 });
@@ -78,7 +80,7 @@ function Journey({ groups }) {
   let n = 0;
 
   return (
-    <div className="journey" ref={ref}>
+    <div className={`journey${inView ? "" : " is-offscreen"}`} ref={ref}>
       <span className="journey__track" aria-hidden="true">
         <motion.span className="journey__progress" style={{ scaleY: progress }} />
         <motion.span className="journey__head" style={{ top: headTop }} />

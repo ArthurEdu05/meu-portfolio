@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
+  useInView,
   useMotionValue,
   useReducedMotion,
   useSpring,
@@ -101,8 +102,11 @@ function PhotoCard() {
 }
 
 export default function Hero() {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+
   return (
-    <section className="hero" id="hero" aria-labelledby="hero-title">
+    <section ref={ref} className={`hero${inView ? "" : " is-offscreen"}`} id="hero" aria-labelledby="hero-title">
       <div className="hero__bg" aria-hidden="true">
         <div className="hero__grid" />
         <div className="hero__orb hero__orb--1" />

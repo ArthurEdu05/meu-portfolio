@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { AnimatePresence, useInView } from "framer-motion";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -200,9 +200,16 @@ function ComingSoon() {
 
 export default function Projects() {
   const [active, setActive] = useState(null);
+  const ref = useRef(null);
+  const inView = useInView(ref);
 
   return (
-    <section className="section projects" id="projects" aria-labelledby="projects-title">
+    <section
+      ref={ref}
+      className={`section projects${inView ? "" : " is-offscreen"}`}
+      id="projects"
+      aria-labelledby="projects-title"
+    >
       <div className="container">
         <SectionHeader
           id="projects-title"

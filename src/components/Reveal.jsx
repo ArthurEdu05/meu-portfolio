@@ -2,14 +2,17 @@ import { motion } from "framer-motion";
 
 const EASE = [0.22, 1, 0.36, 1];
 
+// Desfoque só com mouse/trackpad: em telas de toque, o filtro ficaria aplicado durante a rolagem
+const USE_BLUR = window.matchMedia("(hover: hover)").matches;
+
 // Revela o conteúdo suavemente quando entra na viewport.
 export function Reveal({ children, delay = 0, y = 24, as = "div", className, ...rest }) {
   const Component = motion[as];
   return (
     <Component
       className={className}
-      initial={{ opacity: 0, y, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y, ...(USE_BLUR && { filter: "blur(6px)" }) }}
+      whileInView={{ opacity: 1, y: 0, ...(USE_BLUR && { filter: "blur(0px)" }) }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, delay, ease: EASE }}
       {...rest}

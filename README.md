@@ -8,8 +8,6 @@ O portfólio está publicado e pode ser acessado em:
 
 🔗 **[portfolio-arthur-eduardo.vercel.app](https://portfolio-arthur-eduardo.vercel.app)**
 
----
-
 ## 🛠️ Como Rodar Localmente
 No terminal:
 1.  **Clone este repositório**

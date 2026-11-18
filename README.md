@@ -2,6 +2,12 @@
 
 Bem-vindo ao repositório do meu portfólio pessoal! Este projeto tem como objetivo apresentar de forma clara e moderna minha trajetória profissional, habilidades técnicas, experiências e projetos desenvolvidos ao longo da minha carreira com a tecnologia.
 
+## 🌐 Acesse Online
+
+O portfólio está publicado e pode ser acessado em:
+
+🔗 **[portfolio-arthur-eduardo.vercel.app](https://portfolio-arthur-eduardo.vercel.app)**
+
 ---
 
 ## 🛠️ Como Rodar Localmente
